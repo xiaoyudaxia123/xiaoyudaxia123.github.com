@@ -1,0 +1,2007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dunno Blog</title>
+    <description>Do not go gentle into that good night.Rage, rage against the dying of the light.</description>
+    <link>http://dunnohe.github.io/</link>
+    <atom:link href="http://dunnohe.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 25 Jul 2016 16:39:38 +0800</pubDate>
+    <lastBuildDate>Mon, 25 Jul 2016 16:39:38 +0800</lastBuildDate>
+    <generator>Jekyll v3.1.3</generator>
+    
+      <item>
+        <title>Java-mybatis generator返回主键的用法</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#js&quot;&gt;用法介绍&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;附：我的generatorConfig全部配置&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#xkd&quot;&gt;附：mybatis主键的用法&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namejsa&quot;&gt;&lt;a name=&quot;js&quot;&gt;用法介绍&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;使用mybatis plugin,配置如下：&lt;/p&gt;
+&lt;pre&gt;
+&lt;code&gt;
+&amp;lt;plugin&amp;gt;
+    &amp;lt;groupId&amp;gt;org.mybatis.generator&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;mybatis-generator-maven-plugin&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;1.3.2&amp;lt;/version&amp;gt;
+    &amp;lt;executions&amp;gt;
+        &amp;lt;execution&amp;gt;
+            &amp;lt;phase&amp;gt;install&amp;lt;/phase&amp;gt;
+            &amp;lt;id&amp;gt;Generate MyBatis Artifacts&amp;lt;/id&amp;gt;
+            &amp;lt;goals&amp;gt;
+                &amp;lt;goal&amp;gt;generate&amp;lt;/goal&amp;gt;
+            &amp;lt;/goals&amp;gt;
+        &amp;lt;/execution&amp;gt;
+    &amp;lt;/executions&amp;gt;
+    &amp;lt;configuration&amp;gt;
+        &amp;lt;configurationFile&amp;gt;src/main/resources/generatorConfig.xml&amp;lt;/configurationFile&amp;gt;
+        &amp;lt;overwrite&amp;gt;true&amp;lt;/overwrite&amp;gt;
+    &amp;lt;/configuration&amp;gt;
+&amp;lt;/plugin&amp;gt;
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;查看官方对于生成主键的配置的解释&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;http://www.mybatis.org/generator/configreference/generatedKey.html&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;generatorConfig.xml 配置&lt;/p&gt;
+&lt;pre&gt;
+&lt;code&gt;
+&amp;lt;table schema=&amp;quot;hotel_pda&amp;quot; tableName=&amp;quot;vg_upload_file&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;useActualColumnNames&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+    &amp;lt;generatedKey column=&amp;quot;id&amp;quot; sqlStatement=&amp;quot;MySql&amp;quot; identity=&amp;quot;true&amp;quot; /&amp;gt;
+&amp;lt;/table&amp;gt;
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;h1 id=&quot;a-nameckzlgeneratorconfiga&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;附：我的generatorConfig全部配置&lt;/a&gt;&lt;/h1&gt;
+
+&lt;pre&gt;
+&lt;code class=&quot;XML&quot;&gt;
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;!DOCTYPE generatorConfiguration PUBLIC &amp;quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&amp;quot;
+        &amp;quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&amp;quot; &amp;gt;
+
+&amp;lt;generatorConfiguration&amp;gt;
+    &amp;lt;classPathEntry location=&amp;quot;/Users/lianghe/.m2/repository/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar&amp;quot;/&amp;gt;
+
+    &amp;lt;context id=&amp;quot;mysql&amp;quot; targetRuntime=&amp;quot;MyBatis3&amp;quot;&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.EqualsHashCodePlugin&amp;quot; /&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.SerializablePlugin&amp;quot; /&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.CaseInsensitiveLikePlugin&amp;quot; /&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.ToStringPlugin&amp;quot; /&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.RowBoundsPlugin&amp;quot;/&amp;gt;
+        &amp;lt;plugin type=&amp;quot;org.mybatis.generator.plugins.CaseInsensitiveLikePlugin&amp;quot;/&amp;gt;
+
+        &amp;lt;!-- &amp;#27880;&amp;#37322; --&amp;gt;
+        &amp;lt;commentGenerator &amp;gt;
+            &amp;lt;property name=&amp;quot;suppressAllComments&amp;quot; value=&amp;quot;true&amp;quot;/&amp;gt;&amp;lt;!-- &amp;#26159;&amp;#21542;&amp;#21462;&amp;#28040;&amp;#27880;&amp;#37322; --&amp;gt;
+            &amp;lt;property name=&amp;quot;suppressDate&amp;quot; value=&amp;quot;true&amp;quot; /&amp;gt; &amp;lt;!-- &amp;#26159;&amp;#21542;&amp;#29983;&amp;#25104;&amp;#27880;&amp;#37322;&amp;#20195;&amp;#26102;&amp;#38388;&amp;#25139;--&amp;gt;
+        &amp;lt;/commentGenerator&amp;gt;
+
+        &amp;lt;!-- jdbc --&amp;gt;
+        &amp;lt;jdbcConnection driverClass=&amp;quot;com.mysql.jdbc.Driver&amp;quot;
+                        connectionURL=&amp;quot;jdbc:mysql://xx.xx.xx.xx/hotel_pda&amp;quot;
+                        userId=&amp;quot;xxx&amp;quot;
+                        password=&amp;quot;xxx&amp;quot; /&amp;gt;
+        &amp;lt;!-- &amp;#29983;&amp;#25104;model --&amp;gt;
+        &amp;lt;javaModelGenerator targetPackage=&amp;quot;com.xxx.domain&amp;quot;
+                            targetProject=&amp;quot;src/main/java&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+            &amp;lt;property name=&amp;quot;trimStrings&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+        &amp;lt;/javaModelGenerator&amp;gt;
+
+        &amp;lt;!-- &amp;#29983;&amp;#25104;sql --&amp;gt;
+        &amp;lt;sqlMapGenerator targetPackage=&amp;quot;mapper/auto&amp;quot;
+                         targetProject=&amp;quot;src/main/resources&amp;quot; &amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+        &amp;lt;/sqlMapGenerator&amp;gt;
+
+        &amp;lt;!-- &amp;#29983;&amp;#25104;sql client--&amp;gt;
+        &amp;lt;javaClientGenerator targetPackage=&amp;quot;com.xxx.dao.auto&amp;quot;
+                             targetProject=&amp;quot;src/main/java&amp;quot;
+                             type=&amp;quot;XMLMAPPER&amp;quot; &amp;gt;
+            &amp;lt;property name=&amp;quot;enableSubPackages&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+        &amp;lt;/javaClientGenerator&amp;gt;
+
+        &amp;lt;!-- Tables --&amp;gt;
+        &amp;lt;table schema=&amp;quot;hotel_pda&amp;quot; tableName=&amp;quot;vg_upload_file&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;useActualColumnNames&amp;quot; value=&amp;quot;false&amp;quot;/&amp;gt;
+            &amp;lt;generatedKey column=&amp;quot;id&amp;quot; sqlStatement=&amp;quot;MySql&amp;quot; identity=&amp;quot;true&amp;quot; /&amp;gt;
+        &amp;lt;/table&amp;gt;
+    &amp;lt;/context&amp;gt;
+&amp;lt;/generatorConfiguration&amp;gt;
+
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;h1 id=&quot;a-namexkdmybatisa&quot;&gt;&lt;a name=&quot;xkd&quot;&gt;附：mybatis返回主键的用法&lt;/a&gt;&lt;/h1&gt;
+&lt;pre&gt;
+&lt;code class=&quot;Java&quot;&gt;
+public int insert(Domain domain) {
+	//插入完成后 domain的主键id字段会被赋值，直接返回即可
+	domainMapper.insertSelective(domain);
+	return domain.getId();
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+
+</description>
+        <pubDate>Sat, 23 Jul 2016 04:09:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/07/23/Java-mybatis%E8%BF%94%E5%9B%9E%E4%B8%BB%E9%94%AE%E7%9A%84%E5%9D%91/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/07/23/Java-mybatis%E8%BF%94%E5%9B%9E%E4%B8%BB%E9%94%AE%E7%9A%84%E5%9D%91/</guid>
+        
+        <category>Java</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Linux命令学习-lsof命令</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#js&quot;&gt;介绍&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#xkd&quot;&gt;先看懂top的输出吧&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#tcy&quot;&gt;lsof常用的一些命令&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namejsa&quot;&gt;&lt;a name=&quot;js&quot;&gt;介绍&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;lsof（“list open files”）命令名称很容易记住，把它看成“ls + of”, 在linux下面，一切都是文件，lsof则可以查看这些文件。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;http://www.tecmint.com/10-lsof-command-examples-in-linux/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/lsof.html?highlight=lsof&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-namexkda&quot;&gt;&lt;a name=&quot;xkd&quot;&gt;先了解输出吧&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;我们先运行一下lsof -R(加-R 可以打出ppid)命令&lt;/p&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -R
+COMMAND     PID  PPID      USER   FD      TYPE             DEVICE SIZE/OFF      NODE NAME
+init          1     0      root  cwd   unknown                                       /proc/1/cwd (readlink: Permission denied)
+init          1     0      root  rtd   unknown                                       /proc/1/root (readlink: Permission denied)
+init          1     0      root  txt   unknown                                       /proc/1/exe (readlink: Permission denied)
+init          1     0      root NOFD                                                 /proc/1/fd (opendir: Permission denied)
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;COMMAND 进程名称&lt;/li&gt;
+  &lt;li&gt;PID 进程id&lt;/li&gt;
+  &lt;li&gt;PPID 进程父id&lt;/li&gt;
+  &lt;li&gt;USER 进程所有者&lt;/li&gt;
+  &lt;li&gt;FD 文件描述符
+    &lt;pre&gt;
+  &lt;code&gt;
+  （1）cwd：表示current work dirctory，即：应用程序的当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改
+  （2）txt ：该类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init 程序
+  （3）lnn：library references (AIX);
+  （4）er：FD information error (see NAME column);
+  （5）jld：jail directory (FreeBSD);
+  （6）ltx：shared library text (code and data);
+  （7）mxx ：hex memory-mapped type number xx.
+  （8）m86：DOS Merge mapped file;
+  （9）mem：memory-mapped file;
+  （10）mmap：memory-mapped device;
+  （11）pd：parent directory;
+  （12）rtd：root directory;
+  （13）tr：kernel trace file (OpenBSD);
+  （14）v86  VP/ix mapped file;
+  （15）0：表示标准输出
+  （16）1：表示标准输入
+  （17）2：表示标准错误
+  一般在标准输出、标准错误、标准输入后还跟着文件状态模式：r、w、u等
+  （1）u：表示该文件被打开并处于读取/写入模式
+  （2）r：表示该文件被打开并处于只读模式
+  （3）w：表示该文件被打开并处于
+  （4）空格：表示该文件的状态模式为unknow，且没有锁定
+  （5）-：表示该文件的状态模式为unknow，且被锁定
+  同时在文件状态模式后面，还跟着相关的锁
+  （1）N：for a Solaris NFS lock of unknown type;
+  （2）r：for read lock on part of the file;
+  （3）R：for a read lock on the entire file;
+  （4）w：for a write lock on part of the file;（文件的部分写锁）
+  （5）W：for a write lock on the entire file;（整个文件的写锁）
+  （6）u：for a read and write lock of any length;
+  （7）U：for a lock of unknown type;
+  （8）x：for an SCO OpenServer Xenix lock on part      of the file;
+  （9）X：for an SCO OpenServer Xenix lock on the      entire file;
+  （10）space：if there is no lock.
+  &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TYPE 文件类型
+    &lt;pre&gt;
+  &lt;code&gt;
+  （1）DIR：表示目录
+  （2）CHR：表示字符类型
+  （3）BLK：块设备类型
+  （4）UNIX： UNIX 域套接字
+  （5）FIFO：先进先出 (FIFO) 队列
+  （6）IPv4：网际协议 (IP) 套接字
+  &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;DEVICE 指定磁盘的名称&lt;/li&gt;
+  &lt;li&gt;SIZE 文件大小&lt;/li&gt;
+  &lt;li&gt;NODE 索引节点&lt;/li&gt;
+  &lt;li&gt;NAME 打开文件的确切名称&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-nametcylsofa&quot;&gt;&lt;a name=&quot;tcy&quot;&gt;lsof常用的一些命令&lt;/a&gt;&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查询指定用户打开的文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+lsof -u heliang05
+COMMAND  PID      USER   FD      TYPE             DEVICE SIZE/OFF      NODE NAME
+sshd    3126 heliang05  cwd   unknown                                       /proc/3126/cwd (readlink: Permission denied)
+sshd    3126 heliang05  rtd   unknown                                       /proc/3126/root (readlink: Permission denied)
+sshd    3126 heliang05  txt   unknown                                       /proc/3126/exe (readlink: Permission denied)
+sshd    3126 heliang05 NOFD                                                 /proc/3126/fd (opendir: Permission denied)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;找到在特定TCP端口上运行的进程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i TCP:22
+COMMAND  PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+sshd    1471    root    3u  IPv4  12683      0t0  TCP *:ssh (LISTEN)
+sshd    1471    root    4u  IPv6  12685      0t0  TCP *:ssh (LISTEN)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;找到特定TCP端口范围上的进程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i TCP:0-1024
+COMMAND    PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Google     258 lianghe  153u  IPv4 0x8bc54911385f362b      0t0  TCP 172.30.30.61:57712-&amp;gt;10.32.255.116:http (ESTABLISHED)
+Google     258 lianghe  156u  IPv4 0x8bc5491133dc4d23      0t0  TCP 172.30.30.61:57819-&amp;gt;103.37.152.63:https (CLOSE_WAIT)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的网络连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    6u  IPv4  11326      0t0  UDP *:sunrpc
+rpcbind   1203     rpc    7u  IPv4  11330      0t0  UDP *:954
+rpcbind   1203     rpc   11u  IPv6  11336      0t0  TCP *:sunrpc (LISTEN)
+avahi-dae 1241   avahi   13u  IPv4  11579      0t0  UDP *:mdns
+avahi-dae 1241   avahi   14u  IPv4  11580      0t0  UDP *:58600
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的ipv4连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i 4
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    6u  IPv4  11326      0t0  UDP *:sunrpc
+rpcbind   1203     rpc    7u  IPv4  11330      0t0  UDP *:954
+rpcbind   1203     rpc    8u  IPv4  11331      0t0  TCP *:sunrpc (LISTEN)
+avahi-dae 1241   avahi   13u  IPv4  11579      0t0  UDP *:mdns
+avahi-dae 1241   avahi   14u  IPv4  11580      0t0  UDP *:58600
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的ipv6连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i 6
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    9u  IPv6  11333      0t0  UDP *:sunrpc
+rpcbind   1203     rpc   10u  IPv6  11335      0t0  UDP *:954
+rpcbind   1203     rpc   11u  IPv6  11336      0t0  TCP *:sunrpc (LISTEN)
+rpc.statd 1277 rpcuser   10u  IPv6  11858      0t0  UDP *:55800
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据指定的pid查找&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -p 1
+COMMAND PID USER   FD   TYPE     DEVICE SIZE/OFF   NODE NAME
+init      1 root  cwd    DIR      253,0     4096      2 /
+init      1 root  rtd    DIR      253,0     4096      2 /
+init      1 root  txt    REG      253,0   145180 147164 /sbin/init
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;列出谁在使用某个端口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i :3306
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;这些参数也可以互相组合使用&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 21 Jul 2016 04:20:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/07/21/Linux-lsof%E5%91%BD%E4%BB%A4/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/07/21/Linux-lsof%E5%91%BD%E4%BB%A4/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Linux命令学习-top命令</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#bj&quot;&gt;背景&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#xkd&quot;&gt;先看懂top的输出吧&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#tcy&quot;&gt;top常用的一些命令&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namebja&quot;&gt;&lt;a name=&quot;bj&quot;&gt;背景&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;top命令是Linux下常用的性能分析工具,特别是应用性能报警的时候，我们经常会用到这个命令&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;https://linuxaria.com/howto/understanding-the-top-command-on-linux&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/top.html?highlight=top&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-namexkdtopa&quot;&gt;&lt;a name=&quot;xkd&quot;&gt;先看懂top的输出吧&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;我们先运行一下top命令&lt;/p&gt;
+&lt;pre&gt;
+&lt;code&gt;
+top - 13:26:40 up 188 days, 20:28,  1 user,  load average: 0.07, 0.05, 0.05
+Tasks: 145 total,   1 running, 144 sleeping,   0 stopped,   0 zombie
+Cpu(s):  0.7%us,  0.3%sy,  0.0%ni, 99.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:   8059416k total,  7374232k used,   685184k free,   288420k buffers
+Swap:  2096440k total,        0k used,  2096440k free,  5570192k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND     
+ 8182 sankuai   20   0  981m  40m 3420 S  3.0  0.5 180:24.71 sg_agent 
+17939 sankuai   20   0 3612m 996m  17m S  1.7 12.7 639:16.22 java 
+ 8193 sankuai   20   0 1045m  29m 3152 S  1.3  0.4  84:28.97 sg_agent_worker   
+10107 sankuai   20   0  268m 6724 3616 S  0.3  0.1   7:05.65 log_agent_file    
+    1 root      20   0 23500 1552 1212 S  0.0  0.0   0:05.93 init 
+    2 root      20   0     0    0    0 S  0.0  0.0   0:00.00 kthreadd 
+    3 root      RT   0     0    0    0 S  0.0  0.0   0:54.01 migration/0       
+    4 root      20   0     0    0    0 S  0.0  0.0   3:28.67 ksoftirqd/0       
+    5 root      RT   0     0    0    0 S  0.0  0.0   0:00.00 migration/0
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;第一行内容-top
+    &lt;ul&gt;
+      &lt;li&gt;13:26:40 &lt;strong&gt;系统当前时间&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;188 days, 20:28, &lt;strong&gt;系统开机到现在经过了多少时间&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;1 user, &lt;strong&gt;当前1个用户在线&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;load average: 0.07, 0.05, 0.05 &lt;strong&gt;系统1分钟、5分钟、15分钟的CPU负载信息&lt;/strong&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第二行内容-task
+    &lt;ul&gt;
+      &lt;li&gt;Tasks &lt;strong&gt;任务,右边的数字也就是一个对任务的统计信息&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;145 total, &lt;strong&gt;任务总数&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;1 running, &lt;strong&gt;运行的任务总数&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;144 sleeping, &lt;strong&gt;休眠的任务总数&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;0 stopped, &lt;strong&gt;停止的任务总数&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;0 zombie, &lt;strong&gt;等待父进程来停止的任务总数&lt;/strong&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第三行内容-cpu
+    &lt;ul&gt;
+      &lt;li&gt;0.7%us (&lt;em&gt;user processes&lt;/em&gt;)用户进程的CPU百分比,不包含renice值为负的任务。&lt;/li&gt;
+      &lt;li&gt;0.3%sy (&lt;em&gt;system processes&lt;/em&gt;)系统进程的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;0.0%ni (processes with priority &lt;em&gt;upgrade nice&lt;/em&gt;)改变过优先级的进程的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;99.0%id 没被利用的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;0.0%wa (processes &lt;em&gt;waiting&lt;/em&gt; for I/O operations)等待I/O的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;0.0%hi (&lt;em&gt;hardware interrupts&lt;/em&gt;)硬中断的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;0.0%si (&lt;em&gt;software interrupts&lt;/em&gt;)软终端的CPU百分比。&lt;/li&gt;
+      &lt;li&gt;0.0%st (&lt;em&gt;Steal Time&lt;/em&gt;)通常我们服务器是一个虚拟机，这个指标就代表目前我们所在的虚拟机偷取的整个物理机的CPU的总和。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第四行内容-内存利用
+    &lt;ul&gt;
+      &lt;li&gt;8059416k total, 物理内存总量&lt;/li&gt;
+      &lt;li&gt;7374232k used, 使用的物理内存量&lt;/li&gt;
+      &lt;li&gt;685184k free, 空闲的物理内存量&lt;/li&gt;
+      &lt;li&gt;288420k buffers, 用作内核缓存的物理内存量&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第五行内容-交换空间
+    &lt;ul&gt;
+      &lt;li&gt;2096440k total, 交换区总量&lt;/li&gt;
+      &lt;li&gt;0k used, 使用的交换区量&lt;/li&gt;
+      &lt;li&gt;2096440k free, 空闲的交换区量&lt;/li&gt;
+      &lt;li&gt;5570192k cached, 缓冲交换区总量&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;大于第六行内容-进程列表
+    &lt;ul&gt;
+      &lt;li&gt;PID：进程的ID&lt;/li&gt;
+      &lt;li&gt;USER：进程所有者&lt;/li&gt;
+      &lt;li&gt;PR：进程的优先级别，越小越优先被执行&lt;/li&gt;
+      &lt;li&gt;NI：The “NICE” value of the process，&lt;a href=&quot;#niv&quot;&gt;关于nice value of process的解释&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;VIRT：进程占用的虚拟内存&lt;/li&gt;
+      &lt;li&gt;RES：进程占用的物理内存&lt;/li&gt;
+      &lt;li&gt;SHR：进程使用的共享内存&lt;/li&gt;
+      &lt;li&gt;S：进程的状态。S表示休眠，R表示正在运行，Z表示僵死状态，N表示该进程优先值为负数&lt;/li&gt;
+      &lt;li&gt;%CPU：进程占用CPU的使用率&lt;/li&gt;
+      &lt;li&gt;%MEM：进程使用的物理内存和总内存的百分比&lt;/li&gt;
+      &lt;li&gt;TIME+：该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。&lt;/li&gt;
+      &lt;li&gt;COMMAND：进程启动命令名称&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-nametcytopa&quot;&gt;&lt;a name=&quot;tcy&quot;&gt;top常用的一些命令&lt;/a&gt;&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;q 退出&lt;/li&gt;
+  &lt;li&gt;space 立即刷新&lt;/li&gt;
+  &lt;li&gt;s 设置刷新时间&lt;/li&gt;
+  &lt;li&gt;c COMMAND 显示完整的命令 等效于 top -c&lt;/li&gt;
+  &lt;li&gt;k kill 进程&lt;/li&gt;
+  &lt;li&gt;u 指定用户&lt;/li&gt;
+  &lt;li&gt;t 显示或隐藏进程和CPU状态信息&lt;/li&gt;
+  &lt;li&gt;m 显示或隐藏内存状态信息&lt;/li&gt;
+  &lt;li&gt;l 显示或隐藏uptime信息&lt;/li&gt;
+  &lt;li&gt;1 监控每个逻辑CPU的状况&lt;/li&gt;
+  &lt;li&gt;P 按%CPU使用率排行&lt;/li&gt;
+  &lt;li&gt;T 按MITE+排行&lt;/li&gt;
+  &lt;li&gt;M 按%MEM排行&lt;/li&gt;
+  &lt;li&gt;top -p pid 显示指定的pid进程信息&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namenivnice-value-of-processa&quot;&gt;&lt;a name=&quot;niv&quot;&gt;nice value of process&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;http://askubuntu.com/questions/399357/what-does-the-nice-value-mean-in-cpu-utilization-statistics&lt;/p&gt;
+
+&lt;p&gt;The nice value for the processor is&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;the time the CPU has spent running users’ processes that have been “niced”.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;(from man top) A “niced” process is one with a positive nice value. So if the processor’s nice value is high, that means it is working with some low priority processes. So this indicator is useful when you see high CPU utilization and you are afraid that this high load will have bad effect on your system:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;High CPU utilization with high nice value: Nothing to worry, not so important tasks doing their job, important processes will easily get CPU time if they need. This situation is not a real bottleneck.&lt;/li&gt;
+  &lt;li&gt;High CPU utilization with low nice value: Something to worry because the CPU is stressed with important processes so these or new processes will have to wait. This situation is a real bottleneck.
+I think this nice value is not too important for a simple user, this is more useful in a server environment.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 20 Jun 2016 21:18:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/06/20/Linux-Top%E5%91%BD%E4%BB%A4/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/06/20/Linux-Top%E5%91%BD%E4%BB%A4/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>linux下文件查看技巧</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#bj&quot;&gt;背景&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#aml&quot;&gt;awk命令&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#qb&quot;&gt;起步&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#nzbl&quot;&gt;内置变量&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#zfcpp&quot;&gt;字符串的匹配&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#cfwj&quot;&gt;拆分文件&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#tj&quot;&gt;统计&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#dybg&quot;&gt;打印表格&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#hjbl&quot;&gt;环境变量&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namebja&quot;&gt;&lt;a name=&quot;bj&quot;&gt;背景&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。&lt;/p&gt;
+
+&lt;p&gt;之前了解了常用的几个统计读取日志的命令以及正则表达式,这节了解一下非常强大的两个命令,一个是sed,一个是awk,这两个命令能够完成绝大部分的关键词的取用和统计。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;http://coolshell.cn/articles/9070.html#more-9070&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;大量的例子都是从这里搬运的，推荐大家看酷壳，个人觉得帮助到我很多。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-nameamlawka&quot;&gt;&lt;a name=&quot;aml&quot;&gt;awk命令&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;a-nameqba&quot;&gt;&lt;a name=&quot;qb&quot;&gt;起步&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;功能：管道流编辑器,它可以读指定的文件或者标准输入流,通过一系列的命名可以去修改读到的输入,然后再将修改后的输入进行输出。它可以对匹配的每行都进行处理，比如同时加上什么东西，替换什么东西，减少什么东西。&lt;br /&gt;
+直接看例子：&lt;br /&gt;
+测试文本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ cat test
+1-2-3-4-5
+2-2-3-4-5
+3-2-3-4-5
+4-2-3-4-5
+5-2-3-4-5
+6-2-3-4-5
+7-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;取出部分字段&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;{print $1 &quot; lalala &quot; $4}&#39; test 
+1 lalala 4
+2 lalala 4
+3 lalala 4
+4 lalala 4
+5 lalala 4
+6 lalala 4
+7 lalala 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;前面加上判断条件&lt;br /&gt;
+&lt;strong&gt;其中的“==”为比较运算符。其他比较运算符：!=, &amp;gt;, &amp;lt;, &amp;gt;=, &amp;lt;=&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1==2 || $1==3 {print $1 &quot; lalala &quot; $4}&#39; test 
+2 lalala 4
+3 lalala 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再来一个吧&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 {print $1 &quot; lalala &quot; $4}&#39; test 
+4 lalala 4
+5 lalala 4
+6 lalala 4
+7 lalala 4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namenzbla&quot;&gt;&lt;a name=&quot;nzbl&quot;&gt;内置变量&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;我们可以来了解一下awk的一些内建变量,然后直接来使用看看:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$0	当前记录（这个变量中存放着整个行的内容）
+$1~$n	当前记录的第n个字段，字段间由FS分隔
+FS	输入字段分隔符 默认是空格或Tab
+NF	当前记录中的字段个数，就是有多少列
+NR	已经读出的记录数，就是行号，从1开始，如果有多个文件话，这个值也是不断累加中。
+FNR	当前记录数，与NR不同的是，这个值会是各个文件自己的行号
+RS	输入的记录分隔符， 默认为换行符
+OFS	输出字段分隔符， 默认也是空格
+ORS	输出的记录分隔符，默认为换行符
+FILENAME	当前输入文件的名字
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;试试NR，把第一行打出来&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 || NR==1 {print $1 &quot; lalala &quot; $4}&#39; test
+1 lalala 4
+4 lalala 4
+5 lalala 4
+6 lalala 4
+7 lalala 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;指定分隔符&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk &#39;BEGIN{FS=&quot;:&quot;} {print $1 &quot; lalala &quot; $4}&#39; test
+等价于
+→ awk -F &quot;-&quot; &#39;{print $1 &quot; lalala &quot; $4}&#39; test
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你要指定多个分隔符&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &#39;[;:]&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;OFS的使用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 || NR==1 {print $1,$2,$3}&#39; OFS=&quot;输出记录分隔符&quot; test 
+1输出记录分隔符2输出记录分隔符3
+4输出记录分隔符2输出记录分隔符3
+5输出记录分隔符2输出记录分隔符3
+6输出记录分隔符2输出记录分隔符3
+7输出记录分隔符2输出记录分隔符3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namezfcppa&quot;&gt;&lt;a name=&quot;zfcpp&quot;&gt;字符串匹配&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;匹配第一列有1的这一行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1 ~ /1/ &#39; test 
+1-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;匹配第一列没有1的这一行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F &quot;-&quot; &#39;$1 !~ /1/ &#39; test 
+2-2-3-4-5
+3-2-3-4-5
+4-2-3-4-5
+5-2-3-4-5
+6-2-3-4-5
+7-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;匹配这一行有1的数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk &#39;/1/&#39; test  
+1-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;匹配这一行没有1的数据&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk &#39;!/1/&#39; test 
+2-2-3-4-5
+3-2-3-4-5
+4-2-3-4-5
+5-2-3-4-5
+6-2-3-4-5
+7-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namecfwja&quot;&gt;&lt;a name=&quot;cfwj&quot;&gt;拆分文件&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;匹配第一列有1的这一行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F&quot;-&quot; &#39;{print &amp;gt; $1}&#39; test
+
+→ ll
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 1
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 2
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 3
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 4
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 5
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 6
+-rw-r--r--   1 lianghe  staff         10  6 16 12:20 7
+
+→ cat 1
+1-2-3-4-5
+
+→ cat 2
+2-2-3-4-5
+
+→ cat 3
+3-2-3-4-5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你也可以把指定的列输出到文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+→ awk -F&quot;-&quot; &#39;{print $1,$2 &amp;gt; $1}&#39; test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-nametja&quot;&gt;&lt;a name=&quot;tj&quot;&gt;统计&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;下面的命令计算所有的C文件，CPP文件和H文件的文件大小总和。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ ls -l  *.cpp *.c *.h | awk &#39;{sum+=$5} END {print sum}&#39;
+2511401
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namedybga&quot;&gt;&lt;a name=&quot;dybg&quot;&gt;打印表格&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;在上面我们可以看到一个END关键字。END的意思是“处理完所有的行的标识”，即然说到了END就有必要介绍一下BEGIN，这两个关键字意味着执行前和执行后的意思，语法如下：&lt;/p&gt;
+
+&lt;p&gt;BEGIN{ 这里面放的是执行前的语句 }
+END {这里面放的是处理完所有的行后要执行的语句 }
+{这里面放的是处理每一行时要执行的语句}
+为了说清楚这个事，我们来看看下面的示例：&lt;/p&gt;
+
+&lt;p&gt;假设有这么一个文件（学生成绩表）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ cat score.txt
+Marry   2143 78 84 77
+Jack    2321 66 78 45
+Tom     2122 48 77 71
+Mike    2537 87 97 95
+Bob     2415 40 57 62
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们的awk脚本如下（我没有写有命令行上是因为命令行上不易读，另外也在介绍另一种用法）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ cat cal.awk
+#!/bin/awk -f
+#运行前
+BEGIN {
+    math = 0
+    english = 0
+    computer = 0
+ 
+    printf &quot;NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n&quot;
+    printf &quot;---------------------------------------------\n&quot;
+}
+#运行中
+{
+    math+=$3
+    english+=$4
+    computer+=$5
+    printf &quot;%-6s %-6s %4d %8d %8d %8d\n&quot;, $1, $2, $3,$4,$5, $3+$4+$5
+}
+#运行后
+END {
+    printf &quot;---------------------------------------------\n&quot;
+    printf &quot;  TOTAL:%10d %8d %8d \n&quot;, math, english, computer
+    printf &quot;AVERAGE:%10.2f %8.2f %8.2f\n&quot;, math/NR, english/NR, computer/NR
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们来看一下执行结果：（也可以这样运行 ./cal.awk score.txt）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ awk -f cal.awk score.txt
+NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL
+---------------------------------------------
+Marry  2143     78       84       77      239
+Jack   2321     66       78       45      189
+Tom    2122     48       77       71      196
+Mike   2537     87       97       95      279
+Bob    2415     40       57       62      159
+---------------------------------------------
+  TOTAL:       319      393      350
+AVERAGE:     63.80    78.60    70.00
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namehjbla&quot;&gt;&lt;a name=&quot;hjbl&quot;&gt;环境变量&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;即然说到了脚本，我们来看看怎么和环境变量交互：（使用-v参数和ENVIRON，使用ENVIRON的环境变量需要export）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ x=5
+ 
+$ y=10
+$ export y
+ 
+$ echo $x $y
+5 10
+ 
+$ awk -v val=$x &#39;{print $1, $2, $3, $4+val, $5+ENVIRON[&quot;y&quot;]}&#39; OFS=&quot;\t&quot; score.txt
+Marry   2143    78      89      87
+Jack    2321    66      83      55
+Tom     2122    48      82      81
+Mike    2537    87      102     105
+Bob     2415    40      62      72
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Tue, 17 May 2016 01:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A74/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A74/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>linux下文件查看技巧</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#bj&quot;&gt;背景&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#sml&quot;&gt;sed命令&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#smlth&quot;&gt;s命令替换&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#dgth&quot;&gt;多个替换&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#ykhpp&quot;&gt;圆括号匹配&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#scyml&quot;&gt;sed常用命令&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#cml&quot;&gt;c命令&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#dml&quot;&gt;d命令&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#pml&quot;&gt;p命令&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#mldb&quot;&gt;命令打包&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#zh&quot;&gt;最后再来个工作中最常用的，sed截取日志中某个时间段的文本&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namebja&quot;&gt;&lt;a name=&quot;bj&quot;&gt;背景&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。&lt;/p&gt;
+
+&lt;p&gt;之前了解了常用的几个统计读取日志的命令以及正则表达式,这节了解一下非常强大的两个命令,一个是sed,一个是awk,这两个命令能够完成绝大部分的关键词的取用和统计。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;http://coolshell.cn/articles/9104.html#more-9104&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;大量的例子都是从这里搬运的，推荐大家看酷壳，个人觉得帮助到我很多。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-namesmlseda&quot;&gt;&lt;a name=&quot;sml&quot;&gt;sed命令&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;a-namesmlthsa&quot;&gt;&lt;a name=&quot;smlth&quot;&gt;s命令替换&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;功能：管道流编辑器,它可以读指定的文件或者标准输入流,通过一系列的命名可以去修改读到的输入,然后再将修改后的输入进行输出。它可以对匹配的每行都进行处理，比如同时加上什么东西，替换什么东西，减少什么东西。&lt;br /&gt;
+直接看例子：&lt;br /&gt;
+测试文本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ cat pets.txt
+This is my cat
+  my cat&#39;s name is betty
+This is my dog
+  my dog&#39;s name is frank
+This is my fish
+  my fish&#39;s name is george
+This is my goat
+  my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;把匹配到my的地方全部换成Hao Chen’s
+** （s表示替换命令，/my/表示匹配my，/Hao Chen’s/表示把匹配替换成Hao Chen’s，/g 表示一行上的替换所有的匹配)**&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &quot;s/my/Hao Chen&#39;s/g&quot; pets.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一行最前面加点东西：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/^/#/g&#39; pets.txt
+#This is my cat
+#  my cat&#39;s name is betty
+#This is my dog
+#  my dog&#39;s name is frank
+#This is my fish
+#  my fish&#39;s name is george
+#This is my goat
+#  my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一行最后面加点东西：
+** 可以看到sed 支持正则表达式，前一篇文章已经介绍了正则表达式，可以复习一下**&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/$/ --- /g&#39; pets.txt
+This is my cat ---
+  my cat&#39;s name is betty ---
+This is my dog ---
+  my dog&#39;s name is frank ---
+This is my fish ---
+  my fish&#39;s name is george ---
+This is my goat ---
+  my goat&#39;s name is adam ---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只替换第3到第6行的文本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &quot;3,6s/my/your/g&quot; pets.txt
+This is my cat
+  my cat&#39;s name is betty
+This is your dog
+  your dog&#39;s name is frank
+This is your fish
+  your fish&#39;s name is george
+This is my goat
+  my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只替换每一行的第一个s：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/s/S/1&#39; my.txt
+ThiS is my cat, my cat&#39;s name is betty
+ThiS is my dog, my dog&#39;s name is frank
+ThiS is my fish, my fish&#39;s name is george
+ThiS is my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只替换每一行的第二个s：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/s/S/2&#39; my.txt
+This iS my cat, my cat&#39;s name is betty
+This iS my dog, my dog&#39;s name is frank
+This iS my fish, my fish&#39;s name is george
+This iS my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只替换第一行的第3个以后的s：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/s/S/3g&#39; my.txt
+This is my cat, my cat&#39;S name iS betty
+This is my dog, my dog&#39;S name iS frank
+This is my fiSh, my fiSh&#39;S name iS george
+This is my goat, my goat&#39;S name iS adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namedgtha&quot;&gt;&lt;a name=&quot;dgth&quot;&gt;多个匹配&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;如果我们需要一次替换多个模式，可参看下面的示例：（第一个模式把第一行到第三行的my替换成your，第二个则把第3行以后的This替换成了That）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;1,3s/my/your/g; 3,$s/This/That/g&#39; my.txt
+This is your cat, your cat&#39;s name is betty
+This is your dog, your dog&#39;s name is frank
+That is your fish, your fish&#39;s name is george
+That is my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面的命令等价于：（注：下面使用的是sed的-e命令行参数）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+sed -e &#39;1,3s/my/your/g&#39; -e &#39;3,$s/This/That/g&#39; my.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们可以使用&amp;amp;来当做被匹配的变量，然后可以在基本左右加点东西。如下所示：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/my/[&amp;amp;]/g&#39; my.txt
+This is [my] cat, [my] cat&#39;s name is betty
+This is [my] dog, [my] dog&#39;s name is frank
+This is [my] fish, [my] fish&#39;s name is george
+This is [my] goat, [my] goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-nameykhppa&quot;&gt;&lt;a name=&quot;ykhpp&quot;&gt;圆括号匹配&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;使用圆括号匹配的示例：（圆括号括起来的正则表达式所匹配的字符串会可以当成变量来使用，sed中使用的是\1,\2…）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;s/This is my \([^,]*\),.*is \(.*\)/\1:\2/g&#39; my.txt
+cat:betty
+dog:frank
+fish:george
+goat:adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面这个例子中的正则表达式有点复杂，解开如下（去掉转义字符）：
+正则为：This is my ([^,]&lt;em&gt;),.&lt;/em&gt;is (.*)
+匹配为：This is my (cat),……….is (betty)
+然后：\1就是cat，\2就是betty&lt;/p&gt;
+
+&lt;h3 id=&quot;a-namescymlseda&quot;&gt;&lt;a name=&quot;scyml&quot;&gt;sed常用命令&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;a命令和i命令
+a命令就是append， i命令就是insert，它们是用来添加行的。如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+# 其中的1i表明，其要在第1行前插入一行（insert）
+$ sed &quot;1 i This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
+This is my monkey, my monkey&#39;s name is wukong
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+This is my goat, my goat&#39;s name is adam
+
+# 其中的1a表明，其要在最后一行后追加一行（append）
+$ sed &quot;$ a This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my monkey, my monkey&#39;s name is wukong
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+This is my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以运用匹配来添加文本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+# 注意其中的/fish/a，这意思是匹配到/fish/后就追加一行
+$ sed &quot;/fish/a This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+This is my monkey, my monkey&#39;s name is wukong
+This is my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面这个例子是对每一行都挺插入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+# 注意其中的/fish/a，这意思是匹配到/fish/后就追加一行
+$ sed &quot;/my/a ----&quot; my.txt
+This is my cat, my cat&#39;s name is betty
+----
+This is my dog, my dog&#39;s name is frank
+----
+This is my fish, my fish&#39;s name is george
+----
+This is my goat, my goat&#39;s name is adam
+----
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namecmlca&quot;&gt;&lt;a name=&quot;cml&quot;&gt;c命令&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;c 命令是替换匹配行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+第二行替换匹配行
+$ sed &quot;2 c This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
+This is my cat, my cat&#39;s name is bettyThis is my monkey, my monkey&#39;s name is wukong
+This is my fish, my fish&#39;s name is george
+This is my goat, my goat&#39;s name is adam
+ 
+$ sed &quot;/fish/c This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my monkey, my monkey&#39;s name is wukong
+This is my goat, my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namedmlda&quot;&gt;&lt;a name=&quot;dml&quot;&gt;d命令&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;删除匹配行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ sed &#39;/fish/d&#39; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my goat, my goat&#39;s name is adam
+ 
+$ sed &#39;2d&#39; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my fish, my fish&#39;s name is george
+This is my goat, my goat&#39;s name is adam
+第2行到结束都删除
+$ sed &#39;2,$d&#39; my.txt
+This is my cat, my cat&#39;s name is betty
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namepmlpa&quot;&gt;&lt;a name=&quot;pml&quot;&gt;p命令&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;打印命令&lt;/p&gt;
+
+&lt;p&gt;你可以把这个命令当成grep式的命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+# 匹配fish并输出，可以看到fish的那一行被打了两遍，
+# 这是因为sed处理时会把处理的信息输出
+$ sed &#39;/fish/p&#39; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+This is my fish, my fish&#39;s name is george
+This is my goat, my goat&#39;s name is adam
+ 
+# 使用n参数就好了
+$ sed -n &#39;/fish/p&#39; my.txt
+This is my fish, my fish&#39;s name is george
+ 
+# 从一个模式到另一个模式
+$ sed -n &#39;/dog/,/fish/p&#39; my.txt
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+ 
+#从第一行打印到匹配fish成功的那一行
+$ sed -n &#39;1,/fish/p&#39; my.txt
+This is my cat, my cat&#39;s name is betty
+This is my dog, my dog&#39;s name is frank
+This is my fish, my fish&#39;s name is george
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namemldba&quot;&gt;&lt;a name=&quot;mldb&quot;&gt;命令打包&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;第二个是cmd可以是多个，它们可以用分号分开，可以用大括号括起来作为嵌套命令。下面是几个例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+$ cat pets.txt
+This is my cat
+  my cat&#39;s name is betty
+This is my dog
+  my dog&#39;s name is frank
+This is my fish
+  my fish&#39;s name is george
+This is my goat
+  my goat&#39;s name is adam
+ 
+# 对3行到第6行，执行命令/This/d
+$ sed &#39;3,6 {/This/d}&#39; pets.txt
+This is my cat
+  my cat&#39;s name is betty
+  my dog&#39;s name is frank
+  my fish&#39;s name is george
+This is my goat
+  my goat&#39;s name is adam
+ 
+# 对3行到第6行，匹配/This/成功后，再匹配/fish/，成功后执行d命令
+$ sed &#39;3,6 {/This/{/fish/d}}&#39; pets.txt
+This is my cat
+  my cat&#39;s name is betty
+This is my dog
+  my dog&#39;s name is frank
+  my fish&#39;s name is george
+This is my goat
+  my goat&#39;s name is adam
+ 
+# 从第一行到最后一行，如果匹配到This，则删除之；如果前面有空格，则去除空格
+$ sed &#39;1,${/This/d;s/^ *//g}&#39; pets.txt
+my cat&#39;s name is betty
+my dog&#39;s name is frank
+my fish&#39;s name is george
+my goat&#39;s name is adam
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;a-namezhseda&quot;&gt;&lt;a name=&quot;zh&quot;&gt;最后再来个工作中最常用的，sed截取日志中某个时间段的文本&lt;/a&gt;&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;
+sed -n &#39;/15:32:30/,/16:12:09/p&#39; access_log &amp;gt;log.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Tue, 17 May 2016 01:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A73/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A73/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>linux下文件查看技巧</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#bj&quot;&gt;背景&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#cc&quot;&gt;字符类操作系统字符分类&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#xbds&quot;&gt;[xxx]表达式&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#bsbh&quot;&gt;表示变化&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#hy&quot;&gt;还有一些tips&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#zyzf&quot;&gt;转义字符&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#dwd&quot;&gt;定位点&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#xdf&quot;&gt;限定符（修饰数量）&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#fwxs&quot;&gt;范围修饰&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#fdyzf&quot;&gt;非打印字符&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#mspp&quot;&gt;模式匹配&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#yxjsx&quot;&gt;优先级顺序&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namebja&quot;&gt;&lt;a name=&quot;bj&quot;&gt;背景&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。&lt;/p&gt;
+&lt;p&gt;之前介绍了查看文件过程中经常使用到的命令，但是我们在某些精细化的场景中也不能满足要求，比如单扣出某个字符，id等，所以这里我们要学习一个很重要的东西-正则表达式。我们先来了解一些正则表达式的语法。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;http://www.delorie.com/gnu/docs/grep/grep_toc.html#SEC_Contents&lt;/p&gt;
+
+  &lt;p&gt;https://msdn.microsoft.com/zh-cn/library/az24scfc(v=vs.110).aspx&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-namecca&quot;&gt;&lt;a name=&quot;cc&quot;&gt;字符类操作系统字符分类&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;a-namexbdsxxx-a&quot;&gt;&lt;a name=&quot;xbds&quot;&gt;[xxx] 表达式&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;有一类表达式通过 &lt;strong&gt;[&lt;/strong&gt; 和 &lt;strong&gt;]&lt;/strong&gt; 将一系列字符包含在其中，如[a2],它的意思是匹配出 &lt;strong&gt;[&lt;/strong&gt; &lt;strong&gt;]&lt;/strong&gt; 包含的任意一个字符，比如[a2]就能匹配出含有a或2的数据。如果[]中包含的第一个字符是  &lt;strong&gt;^&lt;/strong&gt; ,就代表匹配任何不在 &lt;strong&gt;[&lt;/strong&gt; &lt;strong&gt;]&lt;/strong&gt; 中包含的字符。比如[^a2]就能匹配出任何不含有a或者不含有2的数据。&lt;/p&gt;
+
+&lt;h3 id=&quot;a-namebsbha&quot;&gt;&lt;a name=&quot;bsbh&quot;&gt;表示变化&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;当表达一种区间时，我们才用连接符 &lt;strong&gt;-&lt;/strong&gt; 来连接字符表达，它可以匹配到范围中的任何一个字符，比如&lt;strong&gt;[&lt;/strong&gt;a-c&lt;strong&gt;]&lt;/strong&gt;可以匹配到a或者b或者c。
+最后我们了解一些已经预先为我们考虑而设定好的一些特殊字符类：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[:alnum:]
+    &lt;ul&gt;
+      &lt;li&gt;匹配英文大小写字符和数字(0-9,a-z.A-Z),等效于[:alpha:]和[:digit:]结果合集。&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;pre&gt;&lt;code&gt;
+  命令
+  echo &quot;a\nB\nf\n1\n\!\n\t\n#&quot; |  grep --color=auto -e &quot;[[:alnum:]]&quot;
+  结果：
+      a
+      B
+      f
+      1
+  &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:alpha:]
+    &lt;ul&gt;
+      &lt;li&gt;代表任何英文大小写字符（A-Z, a-z）,等效于[:lower:]和[:upper:]结果合集。&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;pre&gt;&lt;code&gt;
+  命令
+  echo &quot;a\nB\nf\n1\n\!\n\t\n#&quot; |  grep --color=auto -e &quot;[[:alpha:]]&quot;
+  结果：
+      a
+      B
+      f
+  &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:blank:]
+    &lt;ul&gt;
+      &lt;li&gt;代表空白字符,代表空格键与[Tab]按键两者。&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;pre&gt;&lt;code&gt;
+  命令
+  echo &quot;a\nB\nf\n1\n\!\n\t\n#&quot; |  grep --color=auto -e &quot;[[:blank:]]&quot;
+  结果：
+      \t
+  &lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:cntrl:]
+    &lt;ul&gt;
+      &lt;li&gt;代表键盘上面的控制按键,亦即包括 CR, LF, Tab, Del.. 等等&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:digit:]
+    &lt;ul&gt;
+      &lt;li&gt;代表数字:0,1,2,3,4,5,6,7,8,9&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:graph:]
+    &lt;ul&gt;
+      &lt;li&gt;代表除了空格符合tab键之外的所有按键，实际就是等效于[:alnum:]和[:punct:]结果合集。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:lower:]
+    &lt;ul&gt;
+      &lt;li&gt;代表所有小写英文字母。a-z&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:print:]
+    &lt;ul&gt;
+      &lt;li&gt;代表任何可以被打印出来的字符,等效于[:alnum:]和[:punct]和空格&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:space:]
+    &lt;ul&gt;
+      &lt;li&gt;代表任何会产生空白的字符，包括空格键, [Tab], CR , 回车，换行等等&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:upper:]
+    &lt;ul&gt;
+      &lt;li&gt;代表所有大写英文字母，A-Z&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[:xdigit:]
+    &lt;ul&gt;
+      &lt;li&gt;代表16进位的数字类型,因此包括: 0-9, A-F, a-f 的数字与字符&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;a-namehytipsa&quot;&gt;&lt;a name=&quot;hy&quot;&gt;还有一些tips&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;如果你使用 &lt;strong&gt;[&lt;/strong&gt; &lt;strong&gt;]&lt;/strong&gt; 中包含的字符有&lt;strong&gt;]&lt;/strong&gt;,那么一定把它放在首位，比如&lt;strong&gt;[]ab]&lt;/strong&gt;,会匹配&lt;strong&gt;]或者a或者b&lt;/strong&gt;,&lt;strong&gt;[][ab]&lt;/strong&gt;,会匹配&lt;strong&gt;]或者[或者a或者b&lt;/strong&gt;,&lt;strong&gt;[^]]&lt;/strong&gt;会匹配&lt;strong&gt;]&lt;/strong&gt;之外的所有字符。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-namezyzfa&quot;&gt;&lt;a name=&quot;zyzf&quot;&gt;转义符号&lt;/a&gt;&lt;/h1&gt;
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;字符类别&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\c&lt;/td&gt;&lt;td&gt;控制字符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\s&lt;/td&gt;&lt;td&gt;代表空格&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\S&lt;/td&gt;&lt;td&gt;代表不是空格&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\d&lt;/td&gt;&lt;td&gt;代表数字&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\D&lt;/td&gt;&lt;td&gt;代表不是数字&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\w&lt;/td&gt;&lt;td&gt;代表是单词,等价于[[:alnum]]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\W&lt;/td&gt;&lt;td&gt;代表不是单词,等价于[^[:alnum]]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\xhh&lt;/td&gt;&lt;td&gt;代表 16 进位的数字类型,因此包括: 0-9, A-F, a-f 的数字与字符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\Oxxx&lt;/td&gt;&lt;td&gt;代表八进制的字符,亦即0-7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;# &lt;a name=&quot;dwd&quot;&gt;定位点&lt;/a&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;锚标记&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;^&lt;/td&gt;&lt;td&gt;行首,比如:echo &quot;a\nB\nf\n1\n\!\n\t\n#\n \nba&quot; | grep --color=auto -e &quot;^a&quot; 只会匹配到a这一行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\A&lt;/td&gt;&lt;td&gt;字符串的开始&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;$&lt;/td&gt;&lt;td&gt;行尾,比如:echo &quot;a\nB\nf\n1\n\!\n\t\n#\n \nba&quot; | grep --color=auto -e &quot;a$&quot;会匹配到a,ba这两行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\Z&lt;/td&gt;&lt;td&gt;字符串的结束&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\b&lt;/td&gt;&lt;td&gt;单词的边界,比如&quot;\brat\b&quot;只能匹配&quot;rat&quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\B&lt;/td&gt;&lt;td&gt;不是单词的边界,比如&quot;c\Breat\Be&quot;能匹配&quot;create&quot;,但是&quot;dirty \Brat&quot;不能匹配&quot;dirty rat&quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\&amp;lt;&lt;/td&gt;&lt;td&gt;单词的开头&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;\&amp;gt;&lt;/td&gt;&lt;td&gt;单词的结尾&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;a-namexdfa&quot;&gt;&lt;a name=&quot;xdf&quot;&gt;限定符（修饰数量）&lt;/a&gt;&lt;/h1&gt;
+
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;量词&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;{3}&lt;/td&gt;&lt;td&gt;只出现3次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;{3,}&lt;/td&gt;&lt;td&gt;出现3次以上&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;{3,5}&lt;/td&gt;&lt;td&gt;出现3次,4次或者5次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;{3,5}?&lt;/td&gt;&lt;td&gt;单词的开头&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;?&lt;/td&gt;&lt;td&gt;等效于{0,1}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;??&lt;/td&gt;&lt;td&gt;?的非贪心模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;*&lt;/td&gt;&lt;td&gt;出现0次或者多次,等价于{0,}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;*?&lt;/td&gt;&lt;td&gt;*的非贪心模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;+&lt;/td&gt;&lt;td&gt;出现1次或者多次,等价于{1,}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;+?&lt;/td&gt;&lt;td&gt;+的非贪心模式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;我们看到表中有几行解释是飞贪心模式，什么是非贪心模式呢？&lt;/p&gt;
+&lt;p&gt;当 ? 紧随任何其他限定符（*、+、?、{n}、{n,}、{n,m}）之后时，匹配模式是“非贪心的”。“非贪心的”模式匹配搜索到的、尽可能短的字符串，而默认的“贪心的”模式匹配搜索到的、尽可能长的字符串。例如，在字符串“oooo”中，“o+?”只匹配单个“o”，而“o+”匹配所有“o”。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-namefwxsa&quot;&gt;&lt;a name=&quot;fwxs&quot;&gt;范围修饰&lt;/a&gt;&lt;/h1&gt;
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;范围&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt; . &lt;/td&gt;&lt;td&gt;代表任何字符除开换行符(\n)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(a|b)&lt;/td&gt;&lt;td&gt;a或者b&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(...)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(?:...)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[abc]&lt;/td&gt;&lt;td&gt;a或者b或者c，只能匹配其中一个&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[^abc]&lt;/td&gt;&lt;td&gt;不是a或者不是b或者不是c，只能匹配其中一个&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[a-q]&lt;/td&gt;&lt;td&gt;代表小写字母a~q,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[A-Q]&lt;/td&gt;&lt;td&gt;代表大写字母A~Q,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[0-7]&lt;/td&gt;&lt;td&gt;代表数字0~7,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;a-namefdyzfa&quot;&gt;&lt;a name=&quot;fdyzf&quot;&gt;非打印字符&lt;/a&gt;&lt;/h1&gt;
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;范围&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt; . &lt;/td&gt;&lt;td&gt;代表任何字符除开换行符(\n)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(a|b)&lt;/td&gt;&lt;td&gt;a或者b&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(...)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(?:...)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[abc]&lt;/td&gt;&lt;td&gt;a或者b或者c，只能匹配其中一个&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[^abc]&lt;/td&gt;&lt;td&gt;不是a或者不是b或者不是c，只能匹配其中一个&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[a-q]&lt;/td&gt;&lt;td&gt;代表小写字母a~q,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[A-Q]&lt;/td&gt;&lt;td&gt;代表大写字母A~Q,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;[0-7]&lt;/td&gt;&lt;td&gt;代表数字0~7,只出现一次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;a-namemsppa&quot;&gt;&lt;a name=&quot;mspp&quot;&gt;模式匹配&lt;/a&gt;&lt;/h1&gt;
+
+&lt;table&gt;
+	&lt;tr&gt;&lt;th&gt;模式匹配&lt;/th&gt;&lt;th&gt;代表意义&lt;/th&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;(?:模式)&lt;/td&gt;&lt;td&gt;	
+与模式 匹配，但不保存匹配项；即不会存储匹配项以备将来之用。 这对于用“or”字符 (|) 组合模式部件的情况很有用。&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;(?=模式)&lt;/td&gt;&lt;td&gt;	
+正预测先行。 找到一个匹配项后，将在匹配文本之前开始搜索下一个匹配项。 不会保存匹配项以备将来之用。&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;(?!模式)&lt;/td&gt;&lt;td&gt;	
+负预测先行。 匹配与模式 不匹配的搜索字符串。 找到一个匹配项后，将在匹配文本之前开始搜索下一个匹配项。 不会保存匹配项以备将来之用。&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;a-nameyxjsxa&quot;&gt;&lt;a name=&quot;yxjsx&quot;&gt;优先级顺序&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;正则表达式的计算方式与算术表达式非常类似；即从左到右进行计算，并遵循优先级顺序。
+下表按从高到低的顺序包含了正则表达式运算符的优先级顺序。&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;
+	&lt;th&gt;运算符&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt; \ &lt;/td&gt;&lt;td&gt;转义符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;(), (?:), (?=), []&lt;/td&gt;&lt;td&gt;括号和中括号&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;*、+、?、{n}、{n,}、{n,m}&lt;/td&gt;&lt;td&gt;限定符&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;^、$、\任何元字符&lt;/td&gt;&lt;td&gt;定位点和序列&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+	&lt;td&gt;|&lt;/td&gt;&lt;td&gt;替换&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Mon, 09 May 2016 21:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A72/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A72/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>linux下文件查看技巧</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;背景&lt;/h1&gt;
+&lt;p&gt;在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。
+&lt;/p&gt;
+
+&lt;h1 id=&quot;section-1&quot;&gt;筛选命令&lt;/h1&gt;
+
+&lt;h2 id=&quot;cut&quot;&gt;cut命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：截取结果
+选项参数：
+-d :后面接分隔字符。与 -f 一起使用;
+-f :依据 -d 的分隔字符将一段讯息分割成为数段,用 -f 取出第几段的意思; 
+-c :以字符 (characters) 的单位取出固定字符区间;
+
+eg:
+cut -d&#39;分隔字符&#39; -f fields &amp;lt;==用与有特定分隔字符
+cut -c 字符区间 &amp;lt;==用亍排列整齐的讯息
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;grep&quot;&gt;grep命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：筛选结果
+选项参数：
+-A num 	把每处匹配的后面num几行打出来
+-B num  把每处匹配的前面几行打出来
+-C num  等效于 -A num -B num
+-c 把匹配的个数打出来
+--color=auto 把匹配部分的颜色打出来
+-e pattern pattern是正则表达式，符合的打出来
+-i 不考虑大小写来匹配
+-m num 最大匹配次数
+-n 把行号打印出来
+-v 反向匹配
+-o 正则
+eg:
+grep -nC 2 -i -m 3 -color=auto &quot;exception&quot; error.log 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;sort&quot;&gt;sort命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：排序
+选项参数:
+-b 忽略开头的空格
+-d 按照字典顺序排序
+-f 忽略大小写
+-g 一般的数字排序
+-i 只考虑能被打印出的字符
+-M 按照月份排序
+-n 根据数字string类型排序
+-r 结果反向
+-c 检测input是不是已经排序了，如果是就不再排序了
+eg:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;# 统计命令
+## uniq命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：结果去重
+选项参数:
+-c 打印出每项对应的数目
+-d 仅仅输出input中重复的行
+-u 仅仅打印出input没有重复的行
+-i 忽略大小写字符的不同
+eg:
+cat testsort | uniq
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;wc&quot;&gt;wc命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：统计个数
+选项参数:
+-c 统计打印出来的字节个数
+-l 统计打印出来的行数
+-m 统计打印出来的字符个数
+-w 统计打印出来的单词个数
+eg:
+cat testsort | wc -l
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;tee&quot;&gt;tee命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能：打印输出时同时把结果写入文件中
+选项参数:
+-a 通过append的方式追加到文件中
+eg:
+cat testsort| sort -g | uniq | wc -m | tee -a test 结果会打印出来
+cat test 就可以看到结果
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;section-2&quot;&gt;字符串替换命令&lt;/h1&gt;
+
+&lt;h2 id=&quot;tr&quot;&gt;tr命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+功能:替换字符
+语法:
+tr [-Ccsu] string1 string2
+tr [-Ccu] -d string1
+tr [-Ccu] -s string1
+tr [-Ccu] -ds string1 string2
+选项参数:
+-c 统计打印出来的字节个数
+-l 统计打印出来的行数
+-m 统计打印出来的字符个数
+-w 统计打印出来的单词个数
+eg:
+把如下输出
+1
+2
+3
+转化成 1,2,3
+echo &quot;1\n2\n3&quot; | tr &quot;\r\n&quot; &quot;,&quot; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;xargs&quot;&gt;xargs命令&lt;/h2&gt;
+&lt;p&gt;将管道前面的内容作为xargs后面命令的参数,如果xargs后面没有跟命令,那么默认是echo。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+功能:将管道前面的内容作为xargs后面命令的参数,如果xargs后面没有跟命令,那么默认是echo。
+语法:
+xargs [-0epn] command
+选项参数:
+-0 :如果输入的 stdin 含有特殊字符,例如 `, \, 空格键等等字符时,这个 -0 参数可以将
+他还原成一般字符。这个参数可以用于特殊状态!
+-e :这个是 EOF (end of file) 的意思。后面可以接一个字符串,当 xargs分析到这个字符串时,就会停止继续工作!
+-p :在执行每个指令的argument 时,都会询问使用者是否执行该命令，输入y执行，输入n不执行;
+-n :后面接次数,每次 command 指令执行时,要使用几个参数的意思。
+eg:
+echo &quot;1\n2\n3&quot; | xargs
+echo &quot;1\n2\n3\n\\&quot;  | xargs  #打印不出\字符
+echo &quot;1\n2\n3\n\\&quot;  | xargs -0  #打印的出\字符
+echo &quot;1\n2\n3&quot; | xargs -E 2  #因为2作为终结符，所以只会打印出1
+echo &quot;1\n2\n3\n\\&quot;  | xargs  -n 2 #按照2个参数一组依次执行
+echo &quot;1\n2\n3\n\\&quot;  | xargs -n1 -p #一次询问你是否打印单个数字
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Mon, 09 May 2016 20:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A71/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A71/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Java多线程学习系列</title>
+        <description>&lt;h1 id=&quot;reentrantlock&quot;&gt;ReentrantLock(可重入锁)&lt;/h1&gt;
+&lt;p&gt;# 介绍
+重入锁&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一个ReentrantLock的拥有者是最近一次使用该锁lock了却还没有unlock的线程。&lt;/li&gt;
+  &lt;li&gt;如果一个线程成功的lock了，方法会成功返回，同时该线程会获得锁。如果该线程已经拥有该锁，再调用lock方法，lock方法会立马返回。&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;重要的方法&lt;/p&gt;
+
+&lt;p&gt;public void lock()&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;获得锁
+    &lt;ul&gt;
+      &lt;li&gt;如果该锁没有被其他的线程持有，则该方法会立马返回，调用该方法的线程持有该锁，并且lock hold count(锁持有数)设置成1。&lt;/li&gt;
+      &lt;li&gt;如果该线程已经拥有该锁，则该方法立马返回，且lock hold count（锁持有数）增加1。&lt;/li&gt;
+      &lt;li&gt;如果该锁已经被其他线程持有，那么当前线程将会block直到获得该锁。获得的那个时候lock hold count（锁持有数）会被设置成1。（可以说明该锁是“独占的”，不同线程只能有一个线程占有）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;public void lockInterruptibly() throws InterruptedException&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;获得锁除非当前线程被打断
+    &lt;ul&gt;
+      &lt;li&gt;如果该锁没有被其他的线程持有，则该方法会立马返回，调用该方法的线程持有该锁，并且lock hold count(锁持有数)设置成1。&lt;/li&gt;
+      &lt;li&gt;如果该线程已经拥有该锁，则该方法立马返回，且lock hold count（锁持有数）增加1。&lt;/li&gt;
+      &lt;li&gt;如果这个锁已经被其他线程持有，那么当前线程将不会被线程调度，同时当前线程会进入休眠状态直到以下两种情况之一发生：
+        &lt;ul&gt;
+          &lt;li&gt;当前线程获得锁&lt;/li&gt;
+          &lt;li&gt;当前线程被Interrupt&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 27 Jan 2016 20:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/01/27/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A06-reentrantlock/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/01/27/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A06-reentrantlock/</guid>
+        
+        <category>java多线程</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Java多线程学习系列</title>
+        <description>&lt;h1 id=&quot;synchronized&quot;&gt;synchronized&lt;/h1&gt;
+&lt;p&gt;## 先来看看jsr133中lock的语义&lt;/p&gt;
+
+&lt;p&gt;There are multiple mechanisms for communicating between threads. The most basic of these methods is synchronization, which is implemented using monitors. Each object is associated with a monitor, which a thread can lock or unlock. Only one thread at a time may hold a lock on a monitor. Any other threads attempting to lock that monitor are blocked until they can obtain a lock on that monitor.&lt;/p&gt;
+&lt;p&gt;A thread t may lock a particular monitor multiple times; each unlock reverses the effect of one lock operation.&lt;/p&gt;
+&lt;p&gt;The synchronized statement computes a reference to an object; it then attempts to perform a lock action on that object’s monitor and does not proceed further until the lock action has successfully completed. After the lock action has been performed, the body of the synchronized statement is executed. If execution of the body is ever completed, either normally or abruptly, an unlock action is automatically performed on that same monitor.
+A synchronized method automatically performs a lock action when it is invoked; its body is not executed until the lock action has successfully completed. If the method is an instance method, it locks the monitor associated with the instance for which it was invoked (that is, the object that will be known as this during execution of the body of the method). If the method is static, it locks the monitor associated with the Class object that represents the class in which the method is defined. If execution of the method’s body is ever completed, either normally or abruptly, an unlock action is automatically performed on that same monitor.&lt;/p&gt;
+
+&lt;p&gt;The semantics neither prevents nor requires detection of deadlock conditions. Programs where threads hold (directly or indirectly) locks on multiple objects should use conventional techniques for deadlock avoidance, creating higher-level locking primitives that don’t deadlock, if necessary.&lt;/p&gt;
+
+&lt;p&gt;Other mechanisms, such as reads and writes of volatile variables and classes provided in the java.util.concurrent package, provide alternative mechanisms for synchronization.&lt;/p&gt;
+
+&lt;h2 id=&quot;demo&quot;&gt;demo&lt;/h2&gt;
+&lt;pre&gt;
+	&lt;code&gt;
+package com.github.dunno.concurrent.sync;
+
+import org.junit.Test;
+
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * Created by liang.he on 16/1/16.
+ */
+public class TestSync {
+	//类锁：在代码中的方法上加了static和synchronized的锁，或者synchronized(xxx.class）的代码段
+	//对象锁：在代码中的方法上加了synchronized的锁，或者synchronized(this）的代码段
+	//私有锁：在类内部声明一个私有属性如private Object lock，在需要加锁的代码段synchronized(lock）
+
+	private Integer lock = new Integer(1);
+
+	private Integer lock2 = new Integer(2);
+
+	private final static Integer staticLock = new Integer(3);
+
+	//无锁
+	public void noLockMethod() {
+		long start = System.currentTimeMillis();
+		System.out.println(&quot;noLockMethod start! start:&quot; + start);
+		int sleep = 2;
+		while (sleep &amp;gt; 0) {
+			try {
+				Thread.sleep(1000);
+				System.out.println(&quot;noLockMethod-lock:&quot; + lock2);
+				System.out.println(&quot;noLockMethod-lock:&quot; + lock);
+				System.out.println(&quot;noLockMethod-lock:&quot; + staticLock);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			sleep --;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(&quot;noLockMethod end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+	}
+
+	//对象锁1
+	public synchronized void objectLockMethod() {
+		long start = System.currentTimeMillis();
+		System.out.println(&quot;objectLockMethod start! start:&quot; + start);
+		int sleep = 2;
+		while (sleep &amp;gt; 0) {
+			try {
+				Thread.sleep(1000);
+				System.out.println(&quot;objectLockMethod-lock:&quot; + lock2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			sleep --;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(&quot;objectLockMethod end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+	}
+
+	//对象锁2
+	public void objectLockMethod2() {
+		synchronized (this) {
+			long start = System.currentTimeMillis();
+			System.out.println(&quot;objectLockMehtod2 start! start:&quot; + start);
+			int sleep = 2;
+			while (sleep &amp;gt; 0) {
+				try {
+					Thread.sleep(1000);
+					System.out.println(&quot;objectLockMehtod2-lock:&quot; + lock2);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep --;
+			}
+			long end = System.currentTimeMillis();
+			System.out.println(&quot;objectLockMehtod2 end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+		}
+	}
+
+	//私有锁 锁变量1
+	public void privateLockMethod() {
+		synchronized (lock) {
+			long start = System.currentTimeMillis();
+			System.out.println(&quot;privateLockMethod start! start:&quot; + start);
+			int sleep = 2;
+			while (sleep &amp;gt; 0) {
+				try {
+					Thread.sleep(1000);
+					System.out.println(&quot;privateLockMethod1-lock:&quot; + lock2);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep --;
+			}
+			long end = System.currentTimeMillis();
+			System.out.println(&quot;privateLockMethod end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+		}
+	}
+
+	//私有锁 锁变量2
+	public void privateLockMethod2() {
+		synchronized (lock2) {
+			long start = System.currentTimeMillis();
+			System.out.println(&quot;privateLockMethod2 start! mills:&quot; + start);
+			int sleep = 2;
+			while (sleep &amp;gt; 0) {
+				try {
+					Thread.sleep(1000);
+					System.out.println(&quot;privateLockMethod2-lock:&quot; + lock);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep --;
+			}
+			long end = System.currentTimeMillis();
+			System.out.println(&quot;privateLockMethod end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+		}
+	}
+
+	//类锁
+	public synchronized static void classLockMethod() {
+		long start = System.currentTimeMillis();
+		System.out.println(&quot;classLockMethod start! mills:&quot; + start);
+		int sleep = 2;
+		while (sleep &amp;gt; 0) {
+			try {
+				Thread.sleep(1000);
+				System.out.println(&quot;classLockMethod-lock:&quot; + staticLock);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			sleep --;
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(&quot;classLockMethod end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+	}
+
+	//类锁
+	public static void classLockMethod2() {
+		synchronized (TestSync.class) {
+			long start = System.currentTimeMillis();
+			System.out.println(&quot;classLockMethod2 start! mills:&quot; + start);
+			int sleep = 2;
+			while (sleep &amp;gt; 0) {
+				try {
+					Thread.sleep(1000);
+					System.out.println(&quot;classLockMethod2-lock:&quot; + staticLock);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep --;
+			}
+			long end = System.currentTimeMillis();
+			System.out.println(&quot;classLockMethod2 end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+		}
+	}
+
+	private ReentrantLock reentrantLock = new ReentrantLock();
+
+	//独占锁
+	public void reentrantLock() {
+		try {
+			reentrantLock.lock();
+			long start = System.currentTimeMillis();
+			System.out.println(&quot;reentrantLock start! start:&quot; + start);
+			int sleep = 2;
+			while (sleep &amp;gt; 0) {
+				try {
+					Thread.sleep(1000);
+					System.out.println(&quot;reentrantLock-lock:&quot; + lock2);
+					System.out.println(&quot;reentrantLock-lock:&quot; + lock);
+					System.out.println(&quot;reentrantLock-lock:&quot; + staticLock);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep --;
+			}
+			long end = System.currentTimeMillis();
+			System.out.println(&quot;reentrantLock end! end:&quot; + end + &quot; cost:&quot; + (end - start));
+		} finally {
+			reentrantLock.unlock();
+		}
+	}
+
+	private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+
+	public void readWriteLock() {
+
+	}
+
+	//测试私有锁锁不同变量是否会有竞争
+	//结论:
+	//只打开注释1,注释2,可以说明“当私有锁监视同一资源会竞争,等待其中一个资源释放,当监视的资源不是同一个不会产生竞争”
+	//只打开注释3,注释4,可以说明“对象锁会互相竞争，等待另一个方法结束”
+	//只打开注释5,注释6,可以说明&quot;类锁会互相竞争，等待另一个释放资源&quot;
+	//只打开注释1,注释6,打开注释1,注释5,可以说明&quot;不同的锁不会竞争&quot;
+	//只打开注释1,注释7,3-7或者5-7,可以说明&quot;无锁变量不会和锁变量竞争&quot;
+	//不同类的锁不会竞争
+	@Test
+	public void test1() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Thread thread1 = new Thread(new Runnable() {
+					@Override
+					public void run() {
+
+						//privateLockMethod();//注释1
+						//objectLockMethod();//注释3
+						//classLockMethod();//注释5
+						reentrantLock();//注释8
+					}
+				});
+				Thread thread2 = new Thread(new Runnable() {
+					@Override
+					public void run() {
+
+						//privateLockMethod2();//注释2
+						//objectLockMethod2();//注释4
+						//classLockMethod2();//注释6
+						//noLockMethod();//注释7
+						reentrantLock();//注释9
+					}
+				});
+				thread1.start();
+				thread2.start();
+
+				try {
+					thread1.join();
+					thread2.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+}
+&lt;/code&gt;
+&lt;/pre&gt;
+</description>
+        <pubDate>Sun, 24 Jan 2016 20:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A05-synchronized/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A05-synchronized/</guid>
+        
+        <category>java多线程</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Java多线程学习系列</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;线程的睡眠&amp;amp;等待&amp;amp;让步&amp;amp;唤醒&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;yield()
+    &lt;ul&gt;
+      &lt;li&gt;发送请求告诉调度器“当前线程”让出当前对处理器资源的占用。调度器可以忽略该请求。&lt;/li&gt;
+      &lt;li&gt;很少场景会使用到这个方法，该方法可能对于debug或者出于测试的目的的场景有些用处（就是没有什么卵用的意思）。&lt;/li&gt;
+      &lt;li&gt;D大调&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;sleep(long millis)
+    &lt;ul&gt;
+      &lt;li&gt;当前的执行线程（注意是当前执行线程，比如如果你万一使用t1.sleep(1000),也不建议这么写，不一定会对t1起作用）进入休眠(暂停执行)。&lt;/li&gt;
+      &lt;li&gt;使用该方法时并不会让出对象的监视器。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;wait(long timeout)
+    &lt;ul&gt;
+      &lt;li&gt;使“当前线程”等待直到其他线程调用了notify()或者notifyAll()方法。&lt;/li&gt;
+      &lt;li&gt;“当前线程”必须是此时正在起作用的对象监视器的所有者。&lt;/li&gt;
+      &lt;li&gt;该方法让“当前线程（以下用T表示）”等待同时释放对象监视器的锁，而且T在等待期间也不会再进行线程调度。除非发生以下一种情况：
+        &lt;ul&gt;
+          &lt;li&gt;其他线程调用notify()时,随机唤醒了T线程。&lt;/li&gt;
+          &lt;li&gt;其他线程调用了notifyAll()&lt;/li&gt;
+          &lt;li&gt;其他线程interrupts了T线程&lt;/li&gt;
+          &lt;li&gt;指定的真实等待时间结束。当蚕食timeout是0时，那么则不会考虑timeout，线程T会一直等待直到被唤醒。&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;线程可能不在上面四种情况下被唤醒，我们称为“spurious wakeup”,在实际操作中几乎不会发生。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;wait()
+    &lt;ul&gt;
+      &lt;li&gt;wait()的实现是wait(0);&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;notify()
+    &lt;ul&gt;
+      &lt;li&gt;唤醒一个在该对象监视器上等待的单个线程。&lt;/li&gt;
+      &lt;li&gt;唤醒的机制是随机唤醒。&lt;/li&gt;
+      &lt;li&gt;一次wait方法只能使一个线程在该对象监视器等待。&lt;/li&gt;
+      &lt;li&gt;被唤醒的线程不会开始处理程序直到当前线程释放了对这个对象监视器的锁。&lt;/li&gt;
+      &lt;li&gt;这个方法应该被这个对象监视器的拥有者的这个线程调用。一个线程成为对象监视器的拥有者有以下三个方法：
+        &lt;ul&gt;
+          &lt;li&gt;通过执行一个这个对象的同步实例方法&lt;/li&gt;
+          &lt;li&gt;通过执行锁住这个对象的同步块方法&lt;/li&gt;
+          &lt;li&gt;对于Class类型的对象来说，通过执行这个类的一个静态的同步方法。&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;一个线程在一个时刻只能拥有一个对象监视器。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;notifyAll()
+    &lt;ul&gt;
+      &lt;li&gt;唤醒在此对象监视器上面的所有等待的线程。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 24 Jan 2016 20:00:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A04-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AD%89%E5%BE%85&%E8%AE%A9%E6%AD%A5&%E5%94%A4%E9%86%92/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A04-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AD%89%E5%BE%85&%E8%AE%A9%E6%AD%A5&%E5%94%A4%E9%86%92/</guid>
+        
+        <category>java多线程</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
