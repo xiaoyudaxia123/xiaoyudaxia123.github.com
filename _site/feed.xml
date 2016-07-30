@@ -5,9 +5,219 @@
     <description>Do not go gentle into that good night.Rage, rage against the dying of the light.</description>
     <link>http://dunnohe.github.io/</link>
     <atom:link href="http://dunnohe.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 25 Jul 2016 16:39:38 +0800</pubDate>
-    <lastBuildDate>Mon, 25 Jul 2016 16:39:38 +0800</lastBuildDate>
-    <generator>Jekyll v3.1.3</generator>
+    <pubDate>Sun, 31 Jul 2016 00:41:45 +0800</pubDate>
+    <lastBuildDate>Sun, 31 Jul 2016 00:41:45 +0800</lastBuildDate>
+    <generator>Jekyll v3.2.0</generator>
+    
+      <item>
+        <title>Linux命令学习-找到大文件的目录</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;目录&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#js&quot;&gt;背景介绍&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#xkd&quot;&gt;先看懂top的输出吧&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#tcy&quot;&gt;lsof常用的一些命令&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-namejsa&quot;&gt;&lt;a name=&quot;js&quot;&gt;背景介绍&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;之前公司线下环境碰到过一个场景，运维通知某台机器磁盘快满了，需要尽快上去清理磁盘。但是我不知道如何快速的找到一些大文件的命令。&lt;/p&gt;
+
+&lt;h1 id=&quot;a-nameckzla&quot;&gt;&lt;a name=&quot;ckzl&quot;&gt;参考资料&lt;/a&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;http://www.tecmint.com/10-lsof-command-examples-in-linux/&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/lsof.html?highlight=lsof&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;a-namexkda&quot;&gt;&lt;a name=&quot;xkd&quot;&gt;先了解输出吧&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;我们先运行一下lsof -R(加-R 可以打出ppid)命令&lt;/p&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -R
+COMMAND     PID  PPID      USER   FD      TYPE             DEVICE SIZE/OFF      NODE NAME
+init          1     0      root  cwd   unknown                                       /proc/1/cwd (readlink: Permission denied)
+init          1     0      root  rtd   unknown                                       /proc/1/root (readlink: Permission denied)
+init          1     0      root  txt   unknown                                       /proc/1/exe (readlink: Permission denied)
+init          1     0      root NOFD                                                 /proc/1/fd (opendir: Permission denied)
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;COMMAND 进程名称&lt;/li&gt;
+  &lt;li&gt;PID 进程id&lt;/li&gt;
+  &lt;li&gt;PPID 进程父id&lt;/li&gt;
+  &lt;li&gt;USER 进程所有者&lt;/li&gt;
+  &lt;li&gt;FD 文件描述符
+    &lt;pre&gt;
+  &lt;code&gt;
+  （1）cwd：表示current work dirctory，即：应用程序的当前工作目录，这是该应用程序启动的目录，除非它本身对这个目录进行更改
+  （2）txt ：该类型的文件是程序代码，如应用程序二进制文件本身或共享库，如上列表中显示的 /sbin/init 程序
+  （3）lnn：library references (AIX);
+  （4）er：FD information error (see NAME column);
+  （5）jld：jail directory (FreeBSD);
+  （6）ltx：shared library text (code and data);
+  （7）mxx ：hex memory-mapped type number xx.
+  （8）m86：DOS Merge mapped file;
+  （9）mem：memory-mapped file;
+  （10）mmap：memory-mapped device;
+  （11）pd：parent directory;
+  （12）rtd：root directory;
+  （13）tr：kernel trace file (OpenBSD);
+  （14）v86  VP/ix mapped file;
+  （15）0：表示标准输出
+  （16）1：表示标准输入
+  （17）2：表示标准错误
+  一般在标准输出、标准错误、标准输入后还跟着文件状态模式：r、w、u等
+  （1）u：表示该文件被打开并处于读取/写入模式
+  （2）r：表示该文件被打开并处于只读模式
+  （3）w：表示该文件被打开并处于
+  （4）空格：表示该文件的状态模式为unknow，且没有锁定
+  （5）-：表示该文件的状态模式为unknow，且被锁定
+  同时在文件状态模式后面，还跟着相关的锁
+  （1）N：for a Solaris NFS lock of unknown type;
+  （2）r：for read lock on part of the file;
+  （3）R：for a read lock on the entire file;
+  （4）w：for a write lock on part of the file;（文件的部分写锁）
+  （5）W：for a write lock on the entire file;（整个文件的写锁）
+  （6）u：for a read and write lock of any length;
+  （7）U：for a lock of unknown type;
+  （8）x：for an SCO OpenServer Xenix lock on part      of the file;
+  （9）X：for an SCO OpenServer Xenix lock on the      entire file;
+  （10）space：if there is no lock.
+  &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TYPE 文件类型
+    &lt;pre&gt;
+  &lt;code&gt;
+  （1）DIR：表示目录
+  （2）CHR：表示字符类型
+  （3）BLK：块设备类型
+  （4）UNIX： UNIX 域套接字
+  （5）FIFO：先进先出 (FIFO) 队列
+  （6）IPv4：网际协议 (IP) 套接字
+  &lt;/code&gt;
+  &lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;DEVICE 指定磁盘的名称&lt;/li&gt;
+  &lt;li&gt;SIZE 文件大小&lt;/li&gt;
+  &lt;li&gt;NODE 索引节点&lt;/li&gt;
+  &lt;li&gt;NAME 打开文件的确切名称&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;a-nametcylsofa&quot;&gt;&lt;a name=&quot;tcy&quot;&gt;lsof常用的一些命令&lt;/a&gt;&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查询指定用户打开的文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+lsof -u heliang05
+COMMAND  PID      USER   FD      TYPE             DEVICE SIZE/OFF      NODE NAME
+sshd    3126 heliang05  cwd   unknown                                       /proc/3126/cwd (readlink: Permission denied)
+sshd    3126 heliang05  rtd   unknown                                       /proc/3126/root (readlink: Permission denied)
+sshd    3126 heliang05  txt   unknown                                       /proc/3126/exe (readlink: Permission denied)
+sshd    3126 heliang05 NOFD                                                 /proc/3126/fd (opendir: Permission denied)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;找到在特定TCP端口上运行的进程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i TCP:22
+COMMAND  PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+sshd    1471    root    3u  IPv4  12683      0t0  TCP *:ssh (LISTEN)
+sshd    1471    root    4u  IPv6  12685      0t0  TCP *:ssh (LISTEN)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;找到特定TCP端口范围上的进程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i TCP:0-1024
+COMMAND    PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Google     258 lianghe  153u  IPv4 0x8bc54911385f362b      0t0  TCP 172.30.30.61:57712-&amp;gt;10.32.255.116:http (ESTABLISHED)
+Google     258 lianghe  156u  IPv4 0x8bc5491133dc4d23      0t0  TCP 172.30.30.61:57819-&amp;gt;103.37.152.63:https (CLOSE_WAIT)
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的网络连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    6u  IPv4  11326      0t0  UDP *:sunrpc
+rpcbind   1203     rpc    7u  IPv4  11330      0t0  UDP *:954
+rpcbind   1203     rpc   11u  IPv6  11336      0t0  TCP *:sunrpc (LISTEN)
+avahi-dae 1241   avahi   13u  IPv4  11579      0t0  UDP *:mdns
+avahi-dae 1241   avahi   14u  IPv4  11580      0t0  UDP *:58600
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的ipv4连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i 4
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    6u  IPv4  11326      0t0  UDP *:sunrpc
+rpcbind   1203     rpc    7u  IPv4  11330      0t0  UDP *:954
+rpcbind   1203     rpc    8u  IPv4  11331      0t0  TCP *:sunrpc (LISTEN)
+avahi-dae 1241   avahi   13u  IPv4  11579      0t0  UDP *:mdns
+avahi-dae 1241   avahi   14u  IPv4  11580      0t0  UDP *:58600
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;查询所有的ipv6连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i 6
+COMMAND    PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rpcbind   1203     rpc    9u  IPv6  11333      0t0  UDP *:sunrpc
+rpcbind   1203     rpc   10u  IPv6  11335      0t0  UDP *:954
+rpcbind   1203     rpc   11u  IPv6  11336      0t0  TCP *:sunrpc (LISTEN)
+rpc.statd 1277 rpcuser   10u  IPv6  11858      0t0  UDP *:55800
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;根据指定的pid查找&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -p 1
+COMMAND PID USER   FD   TYPE     DEVICE SIZE/OFF   NODE NAME
+init      1 root  cwd    DIR      253,0     4096      2 /
+init      1 root  rtd    DIR      253,0     4096      2 /
+init      1 root  txt    REG      253,0   145180 147164 /sbin/init
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;列出谁在使用某个端口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+&lt;code&gt;
+# lsof -i :3306
+&lt;/code&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;这些参数也可以互相组合使用&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 25 Jul 2016 20:30:00 +0800</pubDate>
+        <link>http://dunnohe.github.io/2016/07/25/Linux-%E6%89%BE%E5%88%B0%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%AE%E5%BD%95/</link>
+        <guid isPermaLink="true">http://dunnohe.github.io/2016/07/25/Linux-%E6%89%BE%E5%88%B0%E5%A4%A7%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%AE%E5%BD%95/</guid>
+        
+        <category>Linux</category>
+        
+        
+      </item>
     
       <item>
         <title>Java-mybatis generator返回主键的用法</title>
@@ -563,7 +773,7 @@ I think this nice value is not too important for a simple user, this is more use
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;取出部分字段&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;{print $1 &quot; lalala &quot; $4}&#39; test 
+→ awk -F &quot;-&quot; '{print $1 &quot; lalala &quot; $4}' test 
 1 lalala 4
 2 lalala 4
 3 lalala 4
@@ -575,13 +785,13 @@ I think this nice value is not too important for a simple user, this is more use
 &lt;p&gt;前面加上判断条件&lt;br /&gt;
 &lt;strong&gt;其中的“==”为比较运算符。其他比较运算符：!=, &amp;gt;, &amp;lt;, &amp;gt;=, &amp;lt;=&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1==2 || $1==3 {print $1 &quot; lalala &quot; $4}&#39; test 
+→ awk -F &quot;-&quot; '$1==2 || $1==3 {print $1 &quot; lalala &quot; $4}' test 
 2 lalala 4
 3 lalala 4
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;再来一个吧&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 {print $1 &quot; lalala &quot; $4}&#39; test 
+→ awk -F &quot;-&quot; '$1&amp;gt;3 {print $1 &quot; lalala &quot; $4}' test 
 4 lalala 4
 5 lalala 4
 6 lalala 4
@@ -605,7 +815,7 @@ FILENAME	当前输入文件的名字
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;试试NR，把第一行打出来&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 || NR==1 {print $1 &quot; lalala &quot; $4}&#39; test
+→ awk -F &quot;-&quot; '$1&amp;gt;3 || NR==1 {print $1 &quot; lalala &quot; $4}' test
 1 lalala 4
 4 lalala 4
 5 lalala 4
@@ -614,17 +824,17 @@ FILENAME	当前输入文件的名字
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;指定分隔符&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk &#39;BEGIN{FS=&quot;:&quot;} {print $1 &quot; lalala &quot; $4}&#39; test
+→ awk 'BEGIN{FS=&quot;:&quot;} {print $1 &quot; lalala &quot; $4}' test
 等价于
-→ awk -F &quot;-&quot; &#39;{print $1 &quot; lalala &quot; $4}&#39; test
+→ awk -F &quot;-&quot; '{print $1 &quot; lalala &quot; $4}' test
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;如果你要指定多个分隔符&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &#39;[;:]&#39;
+→ awk -F '[;:]'
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;OFS的使用&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1&amp;gt;3 || NR==1 {print $1,$2,$3}&#39; OFS=&quot;输出记录分隔符&quot; test 
+→ awk -F &quot;-&quot; '$1&amp;gt;3 || NR==1 {print $1,$2,$3}' OFS=&quot;输出记录分隔符&quot; test 
 1输出记录分隔符2输出记录分隔符3
 4输出记录分隔符2输出记录分隔符3
 5输出记录分隔符2输出记录分隔符3
@@ -635,12 +845,12 @@ FILENAME	当前输入文件的名字
 &lt;h3 id=&quot;a-namezfcppa&quot;&gt;&lt;a name=&quot;zfcpp&quot;&gt;字符串匹配&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;匹配第一列有1的这一行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1 ~ /1/ &#39; test 
+→ awk -F &quot;-&quot; '$1 ~ /1/ ' test 
 1-2-3-4-5
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;匹配第一列没有1的这一行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F &quot;-&quot; &#39;$1 !~ /1/ &#39; test 
+→ awk -F &quot;-&quot; '$1 !~ /1/ ' test 
 2-2-3-4-5
 3-2-3-4-5
 4-2-3-4-5
@@ -650,12 +860,12 @@ FILENAME	当前输入文件的名字
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;匹配这一行有1的数据&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk &#39;/1/&#39; test  
+→ awk '/1/' test  
 1-2-3-4-5
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;匹配这一行没有1的数据&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk &#39;!/1/&#39; test 
+→ awk '!/1/' test 
 2-2-3-4-5
 3-2-3-4-5
 4-2-3-4-5
@@ -667,7 +877,7 @@ FILENAME	当前输入文件的名字
 &lt;h3 id=&quot;a-namecfwja&quot;&gt;&lt;a name=&quot;cfwj&quot;&gt;拆分文件&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;匹配第一列有1的这一行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F&quot;-&quot; &#39;{print &amp;gt; $1}&#39; test
+→ awk -F&quot;-&quot; '{print &amp;gt; $1}' test
 
 → ll
 -rw-r--r--   1 lianghe  staff         10  6 16 12:20 1
@@ -689,13 +899,13 @@ FILENAME	当前输入文件的名字
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;你也可以把指定的列输出到文件：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-→ awk -F&quot;-&quot; &#39;{print $1,$2 &amp;gt; $1}&#39; test
+→ awk -F&quot;-&quot; '{print $1,$2 &amp;gt; $1}' test
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-nametja&quot;&gt;&lt;a name=&quot;tj&quot;&gt;统计&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;下面的命令计算所有的C文件，CPP文件和H文件的文件大小总和。&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ ls -l  *.cpp *.c *.h | awk &#39;{sum+=$5} END {print sum}&#39;
+$ ls -l  *.cpp *.c *.h | awk '{sum+=$5} END {print sum}'
 2511401
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -772,7 +982,7 @@ $ export y
 $ echo $x $y
 5 10
  
-$ awk -v val=$x &#39;{print $1, $2, $3, $4+val, $5+ENVIRON[&quot;y&quot;]}&#39; OFS=&quot;\t&quot; score.txt
+$ awk -v val=$x '{print $1, $2, $3, $4+val, $5+ENVIRON[&quot;y&quot;]}' OFS=&quot;\t&quot; score.txt
 Marry   2143    78      89      87
 Jack    2321    66      83      55
 Tom     2122    48      82      81
@@ -836,108 +1046,108 @@ Bob     2415    40      62      72
 &lt;pre&gt;&lt;code&gt;
 $ cat pets.txt
 This is my cat
-  my cat&#39;s name is betty
+  my cat's name is betty
 This is my dog
-  my dog&#39;s name is frank
+  my dog's name is frank
 This is my fish
-  my fish&#39;s name is george
+  my fish's name is george
 This is my goat
-  my goat&#39;s name is adam
+  my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;把匹配到my的地方全部换成Hao Chen’s
 ** （s表示替换命令，/my/表示匹配my，/Hao Chen’s/表示把匹配替换成Hao Chen’s，/g 表示一行上的替换所有的匹配)**&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &quot;s/my/Hao Chen&#39;s/g&quot; pets.txt
+$ sed &quot;s/my/Hao Chen's/g&quot; pets.txt
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;每一行最前面加点东西：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/^/#/g&#39; pets.txt
+$ sed 's/^/#/g' pets.txt
 #This is my cat
-#  my cat&#39;s name is betty
+#  my cat's name is betty
 #This is my dog
-#  my dog&#39;s name is frank
+#  my dog's name is frank
 #This is my fish
-#  my fish&#39;s name is george
+#  my fish's name is george
 #This is my goat
-#  my goat&#39;s name is adam
+#  my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;每一行最后面加点东西：
 ** 可以看到sed 支持正则表达式，前一篇文章已经介绍了正则表达式，可以复习一下**&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/$/ --- /g&#39; pets.txt
+$ sed 's/$/ --- /g' pets.txt
 This is my cat ---
-  my cat&#39;s name is betty ---
+  my cat's name is betty ---
 This is my dog ---
-  my dog&#39;s name is frank ---
+  my dog's name is frank ---
 This is my fish ---
-  my fish&#39;s name is george ---
+  my fish's name is george ---
 This is my goat ---
-  my goat&#39;s name is adam ---
+  my goat's name is adam ---
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;只替换第3到第6行的文本&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 $ sed &quot;3,6s/my/your/g&quot; pets.txt
 This is my cat
-  my cat&#39;s name is betty
+  my cat's name is betty
 This is your dog
-  your dog&#39;s name is frank
+  your dog's name is frank
 This is your fish
-  your fish&#39;s name is george
+  your fish's name is george
 This is my goat
-  my goat&#39;s name is adam
+  my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;只替换每一行的第一个s：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/s/S/1&#39; my.txt
-ThiS is my cat, my cat&#39;s name is betty
-ThiS is my dog, my dog&#39;s name is frank
-ThiS is my fish, my fish&#39;s name is george
-ThiS is my goat, my goat&#39;s name is adam
+$ sed 's/s/S/1' my.txt
+ThiS is my cat, my cat's name is betty
+ThiS is my dog, my dog's name is frank
+ThiS is my fish, my fish's name is george
+ThiS is my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;只替换每一行的第二个s：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/s/S/2&#39; my.txt
-This iS my cat, my cat&#39;s name is betty
-This iS my dog, my dog&#39;s name is frank
-This iS my fish, my fish&#39;s name is george
-This iS my goat, my goat&#39;s name is adam
+$ sed 's/s/S/2' my.txt
+This iS my cat, my cat's name is betty
+This iS my dog, my dog's name is frank
+This iS my fish, my fish's name is george
+This iS my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;只替换第一行的第3个以后的s：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/s/S/3g&#39; my.txt
-This is my cat, my cat&#39;S name iS betty
-This is my dog, my dog&#39;S name iS frank
-This is my fiSh, my fiSh&#39;S name iS george
-This is my goat, my goat&#39;S name iS adam
+$ sed 's/s/S/3g' my.txt
+This is my cat, my cat'S name iS betty
+This is my dog, my dog'S name iS frank
+This is my fiSh, my fiSh'S name iS george
+This is my goat, my goat'S name iS adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-namedgtha&quot;&gt;&lt;a name=&quot;dgth&quot;&gt;多个匹配&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;如果我们需要一次替换多个模式，可参看下面的示例：（第一个模式把第一行到第三行的my替换成your，第二个则把第3行以后的This替换成了That）&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;1,3s/my/your/g; 3,$s/This/That/g&#39; my.txt
-This is your cat, your cat&#39;s name is betty
-This is your dog, your dog&#39;s name is frank
-That is your fish, your fish&#39;s name is george
-That is my goat, my goat&#39;s name is adam
+$ sed '1,3s/my/your/g; 3,$s/This/That/g' my.txt
+This is your cat, your cat's name is betty
+This is your dog, your dog's name is frank
+That is your fish, your fish's name is george
+That is my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;上面的命令等价于：（注：下面使用的是sed的-e命令行参数）&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-sed -e &#39;1,3s/my/your/g&#39; -e &#39;3,$s/This/That/g&#39; my.txt
+sed -e '1,3s/my/your/g' -e '3,$s/This/That/g' my.txt
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;我们可以使用&amp;amp;来当做被匹配的变量，然后可以在基本左右加点东西。如下所示：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/my/[&amp;amp;]/g&#39; my.txt
-This is [my] cat, [my] cat&#39;s name is betty
-This is [my] dog, [my] dog&#39;s name is frank
-This is [my] fish, [my] fish&#39;s name is george
-This is [my] goat, [my] goat&#39;s name is adam
+$ sed 's/my/[&amp;amp;]/g' my.txt
+This is [my] cat, [my] cat's name is betty
+This is [my] dog, [my] dog's name is frank
+This is [my] fish, [my] fish's name is george
+This is [my] goat, [my] goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-nameykhppa&quot;&gt;&lt;a name=&quot;ykhpp&quot;&gt;圆括号匹配&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;使用圆括号匹配的示例：（圆括号括起来的正则表达式所匹配的字符串会可以当成变量来使用，sed中使用的是\1,\2…）&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;s/This is my \([^,]*\),.*is \(.*\)/\1:\2/g&#39; my.txt
+$ sed 's/This is my \([^,]*\),.*is \(.*\)/\1:\2/g' my.txt
 cat:betty
 dog:frank
 fish:george
@@ -954,44 +1164,44 @@ goat:adam
 a命令就是append， i命令就是insert，它们是用来添加行的。如：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 # 其中的1i表明，其要在第1行前插入一行（insert）
-$ sed &quot;1 i This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
-This is my monkey, my monkey&#39;s name is wukong
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
-This is my goat, my goat&#39;s name is adam
+$ sed &quot;1 i This is my monkey, my monkey's name is wukong&quot; my.txt
+This is my monkey, my monkey's name is wukong
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
+This is my goat, my goat's name is adam
 
 # 其中的1a表明，其要在最后一行后追加一行（append）
-$ sed &quot;$ a This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my monkey, my monkey&#39;s name is wukong
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
-This is my goat, my goat&#39;s name is adam
+$ sed &quot;$ a This is my monkey, my monkey's name is wukong&quot; my.txt
+This is my cat, my cat's name is betty
+This is my monkey, my monkey's name is wukong
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
+This is my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;我们可以运用匹配来添加文本：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 # 注意其中的/fish/a，这意思是匹配到/fish/后就追加一行
-$ sed &quot;/fish/a This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
-This is my monkey, my monkey&#39;s name is wukong
-This is my goat, my goat&#39;s name is adam
+$ sed &quot;/fish/a This is my monkey, my monkey's name is wukong&quot; my.txt
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
+This is my monkey, my monkey's name is wukong
+This is my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;下面这个例子是对每一行都挺插入：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 # 注意其中的/fish/a，这意思是匹配到/fish/后就追加一行
 $ sed &quot;/my/a ----&quot; my.txt
-This is my cat, my cat&#39;s name is betty
+This is my cat, my cat's name is betty
 ----
-This is my dog, my dog&#39;s name is frank
+This is my dog, my dog's name is frank
 ----
-This is my fish, my fish&#39;s name is george
+This is my fish, my fish's name is george
 ----
-This is my goat, my goat&#39;s name is adam
+This is my goat, my goat's name is adam
 ----
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -999,34 +1209,34 @@ This is my goat, my goat&#39;s name is adam
 &lt;p&gt;c 命令是替换匹配行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
 第二行替换匹配行
-$ sed &quot;2 c This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
-This is my cat, my cat&#39;s name is bettyThis is my monkey, my monkey&#39;s name is wukong
-This is my fish, my fish&#39;s name is george
-This is my goat, my goat&#39;s name is adam
+$ sed &quot;2 c This is my monkey, my monkey's name is wukong&quot; my.txt
+This is my cat, my cat's name is bettyThis is my monkey, my monkey's name is wukong
+This is my fish, my fish's name is george
+This is my goat, my goat's name is adam
  
-$ sed &quot;/fish/c This is my monkey, my monkey&#39;s name is wukong&quot; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my monkey, my monkey&#39;s name is wukong
-This is my goat, my goat&#39;s name is adam
+$ sed &quot;/fish/c This is my monkey, my monkey's name is wukong&quot; my.txt
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my monkey, my monkey's name is wukong
+This is my goat, my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-namedmlda&quot;&gt;&lt;a name=&quot;dml&quot;&gt;d命令&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;删除匹配行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;
-$ sed &#39;/fish/d&#39; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my goat, my goat&#39;s name is adam
+$ sed '/fish/d' my.txt
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my goat, my goat's name is adam
  
-$ sed &#39;2d&#39; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my fish, my fish&#39;s name is george
-This is my goat, my goat&#39;s name is adam
+$ sed '2d' my.txt
+This is my cat, my cat's name is betty
+This is my fish, my fish's name is george
+This is my goat, my goat's name is adam
 第2行到结束都删除
-$ sed &#39;2,$d&#39; my.txt
-This is my cat, my cat&#39;s name is betty
+$ sed '2,$d' my.txt
+This is my cat, my cat's name is betty
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-namepmlpa&quot;&gt;&lt;a name=&quot;pml&quot;&gt;p命令&lt;/a&gt;&lt;/h3&gt;
@@ -1036,27 +1246,27 @@ This is my cat, my cat&#39;s name is betty
 &lt;pre&gt;&lt;code&gt;
 # 匹配fish并输出，可以看到fish的那一行被打了两遍，
 # 这是因为sed处理时会把处理的信息输出
-$ sed &#39;/fish/p&#39; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
-This is my fish, my fish&#39;s name is george
-This is my goat, my goat&#39;s name is adam
+$ sed '/fish/p' my.txt
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
+This is my fish, my fish's name is george
+This is my goat, my goat's name is adam
  
 # 使用n参数就好了
-$ sed -n &#39;/fish/p&#39; my.txt
-This is my fish, my fish&#39;s name is george
+$ sed -n '/fish/p' my.txt
+This is my fish, my fish's name is george
  
 # 从一个模式到另一个模式
-$ sed -n &#39;/dog/,/fish/p&#39; my.txt
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
+$ sed -n '/dog/,/fish/p' my.txt
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
  
 #从第一行打印到匹配fish成功的那一行
-$ sed -n &#39;1,/fish/p&#39; my.txt
-This is my cat, my cat&#39;s name is betty
-This is my dog, my dog&#39;s name is frank
-This is my fish, my fish&#39;s name is george
+$ sed -n '1,/fish/p' my.txt
+This is my cat, my cat's name is betty
+This is my dog, my dog's name is frank
+This is my fish, my fish's name is george
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-namemldba&quot;&gt;&lt;a name=&quot;mldb&quot;&gt;命令打包&lt;/a&gt;&lt;/h3&gt;
@@ -1064,44 +1274,44 @@ This is my fish, my fish&#39;s name is george
 &lt;pre&gt;&lt;code&gt;
 $ cat pets.txt
 This is my cat
-  my cat&#39;s name is betty
+  my cat's name is betty
 This is my dog
-  my dog&#39;s name is frank
+  my dog's name is frank
 This is my fish
-  my fish&#39;s name is george
+  my fish's name is george
 This is my goat
-  my goat&#39;s name is adam
+  my goat's name is adam
  
 # 对3行到第6行，执行命令/This/d
-$ sed &#39;3,6 {/This/d}&#39; pets.txt
+$ sed '3,6 {/This/d}' pets.txt
 This is my cat
-  my cat&#39;s name is betty
-  my dog&#39;s name is frank
-  my fish&#39;s name is george
+  my cat's name is betty
+  my dog's name is frank
+  my fish's name is george
 This is my goat
-  my goat&#39;s name is adam
+  my goat's name is adam
  
 # 对3行到第6行，匹配/This/成功后，再匹配/fish/，成功后执行d命令
-$ sed &#39;3,6 {/This/{/fish/d}}&#39; pets.txt
+$ sed '3,6 {/This/{/fish/d}}' pets.txt
 This is my cat
-  my cat&#39;s name is betty
+  my cat's name is betty
 This is my dog
-  my dog&#39;s name is frank
-  my fish&#39;s name is george
+  my dog's name is frank
+  my fish's name is george
 This is my goat
-  my goat&#39;s name is adam
+  my goat's name is adam
  
 # 从第一行到最后一行，如果匹配到This，则删除之；如果前面有空格，则去除空格
-$ sed &#39;1,${/This/d;s/^ *//g}&#39; pets.txt
-my cat&#39;s name is betty
-my dog&#39;s name is frank
-my fish&#39;s name is george
-my goat&#39;s name is adam
+$ sed '1,${/This/d;s/^ *//g}' pets.txt
+my cat's name is betty
+my dog's name is frank
+my fish's name is george
+my goat's name is adam
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;a-namezhseda&quot;&gt;&lt;a name=&quot;zh&quot;&gt;最后再来个工作中最常用的，sed截取日志中某个时间段的文本&lt;/a&gt;&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;
-sed -n &#39;/15:32:30/,/16:12:09/p&#39; access_log &amp;gt;log.txt
+sed -n '/15:32:30/,/16:12:09/p' access_log &amp;gt;log.txt
 &lt;/code&gt;&lt;/pre&gt;
 
 </description>
@@ -1477,7 +1687,7 @@ sed -n &#39;/15:32:30/,/16:12:09/p&#39; access_log &amp;gt;log.txt
 -c :以字符 (characters) 的单位取出固定字符区间;
 
 eg:
-cut -d&#39;分隔字符&#39; -f fields &amp;lt;==用与有特定分隔字符
+cut -d'分隔字符' -f fields &amp;lt;==用与有特定分隔字符
 cut -c 字符区间 &amp;lt;==用亍排列整齐的讯息
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1927,76 +2137,6 @@ public class TestSync {
         <pubDate>Sun, 24 Jan 2016 20:00:00 +0800</pubDate>
         <link>http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A05-synchronized/</link>
         <guid isPermaLink="true">http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A05-synchronized/</guid>
-        
-        <category>java多线程</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Java多线程学习系列</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;线程的睡眠&amp;amp;等待&amp;amp;让步&amp;amp;唤醒&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;yield()
-    &lt;ul&gt;
-      &lt;li&gt;发送请求告诉调度器“当前线程”让出当前对处理器资源的占用。调度器可以忽略该请求。&lt;/li&gt;
-      &lt;li&gt;很少场景会使用到这个方法，该方法可能对于debug或者出于测试的目的的场景有些用处（就是没有什么卵用的意思）。&lt;/li&gt;
-      &lt;li&gt;D大调&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;sleep(long millis)
-    &lt;ul&gt;
-      &lt;li&gt;当前的执行线程（注意是当前执行线程，比如如果你万一使用t1.sleep(1000),也不建议这么写，不一定会对t1起作用）进入休眠(暂停执行)。&lt;/li&gt;
-      &lt;li&gt;使用该方法时并不会让出对象的监视器。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;wait(long timeout)
-    &lt;ul&gt;
-      &lt;li&gt;使“当前线程”等待直到其他线程调用了notify()或者notifyAll()方法。&lt;/li&gt;
-      &lt;li&gt;“当前线程”必须是此时正在起作用的对象监视器的所有者。&lt;/li&gt;
-      &lt;li&gt;该方法让“当前线程（以下用T表示）”等待同时释放对象监视器的锁，而且T在等待期间也不会再进行线程调度。除非发生以下一种情况：
-        &lt;ul&gt;
-          &lt;li&gt;其他线程调用notify()时,随机唤醒了T线程。&lt;/li&gt;
-          &lt;li&gt;其他线程调用了notifyAll()&lt;/li&gt;
-          &lt;li&gt;其他线程interrupts了T线程&lt;/li&gt;
-          &lt;li&gt;指定的真实等待时间结束。当蚕食timeout是0时，那么则不会考虑timeout，线程T会一直等待直到被唤醒。&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;线程可能不在上面四种情况下被唤醒，我们称为“spurious wakeup”,在实际操作中几乎不会发生。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;wait()
-    &lt;ul&gt;
-      &lt;li&gt;wait()的实现是wait(0);&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;notify()
-    &lt;ul&gt;
-      &lt;li&gt;唤醒一个在该对象监视器上等待的单个线程。&lt;/li&gt;
-      &lt;li&gt;唤醒的机制是随机唤醒。&lt;/li&gt;
-      &lt;li&gt;一次wait方法只能使一个线程在该对象监视器等待。&lt;/li&gt;
-      &lt;li&gt;被唤醒的线程不会开始处理程序直到当前线程释放了对这个对象监视器的锁。&lt;/li&gt;
-      &lt;li&gt;这个方法应该被这个对象监视器的拥有者的这个线程调用。一个线程成为对象监视器的拥有者有以下三个方法：
-        &lt;ul&gt;
-          &lt;li&gt;通过执行一个这个对象的同步实例方法&lt;/li&gt;
-          &lt;li&gt;通过执行锁住这个对象的同步块方法&lt;/li&gt;
-          &lt;li&gt;对于Class类型的对象来说，通过执行这个类的一个静态的同步方法。&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;一个线程在一个时刻只能拥有一个对象监视器。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;notifyAll()
-    &lt;ul&gt;
-      &lt;li&gt;唤醒在此对象监视器上面的所有等待的线程。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sun, 24 Jan 2016 20:00:00 +0800</pubDate>
-        <link>http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A04-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AD%89%E5%BE%85&%E8%AE%A9%E6%AD%A5&%E5%94%A4%E9%86%92/</link>
-        <guid isPermaLink="true">http://dunnohe.github.io/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A04-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AD%89%E5%BE%85&%E8%AE%A9%E6%AD%A5&%E5%94%A4%E9%86%92/</guid>
         
         <category>java多线程</category>
         
