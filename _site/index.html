@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Do not go gentle into that good night.Rage, rage against the dying of the light.">
+    <meta name="keyword"  content="java | linux ">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Dunno Blog</title>
+
+    <link rel="canonical" href="http://dunnohe.github.io/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+    <script >hljs.initHighlightingOnLoad();</script>  
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Dunno Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About Me</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/index_bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Dunno Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">一些对技术的总结和积累,对java和linux感兴趣</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/2016/07/23/Java-mybatis%E8%BF%94%E5%9B%9E%E4%B8%BB%E9%94%AE%E7%9A%84%E5%9D%91/">
+        <h2 class="post-title">
+            Java-mybatis generator返回主键的用法
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "了解mybatis generator返回主键的用法"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  用法介绍
+  附：我的generatorConfig全部配置
+  附：mybatis主键的用法
+
+
+用法介绍
+使用mybatis plugin,配置如下：
+
+
+&lt;plugin&gt;
+    &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-generato...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on July 23, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/07/21/Linux-lsof%E5%91%BD%E4%BB%A4/">
+        <h2 class="post-title">
+            Linux命令学习-lsof命令
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "了解lsof的用法"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  介绍
+  参考资料
+  先看懂top的输出吧
+  lsof常用的一些命令
+
+
+介绍
+lsof（“list open files”）命令名称很容易记住，把它看成“ls + of”, 在linux下面，一切都是文件，lsof则可以查看这些文件。
+
+参考资料
+
+  http://www.tecmint.com/10-lsof-command-examples-in-linux/
+
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on July 21, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/20/Linux-Top%E5%91%BD%E4%BB%A4/">
+        <h2 class="post-title">
+            Linux命令学习-top命令
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "了解top的用法"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  背景
+  参考资料
+  先看懂top的输出吧
+  top常用的一些命令
+
+
+背景
+top命令是Linux下常用的性能分析工具,特别是应用性能报警的时候，我们经常会用到这个命令
+
+参考资料
+
+  https://linuxaria.com/howto/understanding-the-top-command-on-linux
+
+
+
+  http://linuxtools-rst...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on June 20, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A74/">
+        <h2 class="post-title">
+            linux下文件查看技巧
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "4-了解awk的用法"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  背景
+  参考资料
+  awk命令
+    
+      起步
+      内置变量
+      字符串的匹配
+      拆分文件
+      统计
+      打印表格
+      环境变量
+    
+  
+
+
+背景
+在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。
+
+之前了解了常用的...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on May 17, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/17/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A73/">
+        <h2 class="post-title">
+            linux下文件查看技巧
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "3-了解sed的用法"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  背景
+  参考资料
+  sed命令
+    
+      s命令替换
+      多个替换
+      圆括号匹配
+      sed常用命令
+      c命令
+      d命令
+      p命令
+      命令打包
+      最后再来个工作中最常用的，sed截取日志中某个时间段的文本
+    
+  
+
+
+背景
+在工作中我们经常需要查看日志来迅速的定位问题,同时发生故...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on May 17, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A72/">
+        <h2 class="post-title">
+            linux下文件查看技巧
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "2-了解正则表达式"
+        </h3>
+        
+        <div class="post-content-preview">
+            目录
+
+
+  背景
+  参考资料
+  字符类操作系统字符分类
+    
+      [xxx]表达式
+      表示变化
+      还有一些tips
+    
+  
+  转义字符
+  定位点
+  限定符（修饰数量）
+  范围修饰
+  非打印字符
+  模式匹配
+  优先级顺序
+
+
+背景
+在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on May 9, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/09/Linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E7%9C%8B%E6%8A%80%E5%B7%A71/">
+        <h2 class="post-title">
+            linux下文件查看技巧
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "1-常用的查看文件命令"
+        </h3>
+        
+        <div class="post-content-preview">
+            背景
+在工作中我们经常需要查看日志来迅速的定位问题,同时发生故障时我们要经常的统计日志中相关的内容，那么掌握一些常用的日志操作命令就非常必要了。
+
+
+筛选命令
+
+cut命令
+
+功能：截取结果
+选项参数：
+-d :后面接分隔字符。与 -f 一起使用;
+-f :依据 -d 的分隔字符将一段讯息分割成为数段,用 -f 取出第几段的意思; 
+-c :以字符 (characters) 的单位取出固定字...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on May 9, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/01/27/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A06-reentrantlock/">
+        <h2 class="post-title">
+            Java多线程学习系列
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "6-ReentrantLock(可重入锁)"
+        </h3>
+        
+        <div class="post-content-preview">
+            ReentrantLock(可重入锁)
+# 介绍
+重入锁
+
+
+  一个ReentrantLock的拥有者是最近一次使用该锁lock了却还没有unlock的线程。
+  如果一个线程成功的lock了，方法会成功返回，同时该线程会获得锁。如果该线程已经拥有该锁，再调用lock方法，lock方法会立马返回。
+  
+
+
+重要的方法
+
+public void lock()
+
+
+  获得锁
+    
+  ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on January 27, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A05-synchronized/">
+        <h2 class="post-title">
+            Java多线程学习系列
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "5-synchronized"
+        </h3>
+        
+        <div class="post-content-preview">
+            synchronized
+## 先来看看jsr133中lock的语义
+
+There are multiple mechanisms for communicating between threads. The most basic of these methods is synchronization, which is implemented using monitors. Each ob...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on January 24, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/01/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A04-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%AD%89%E5%BE%85&%E8%AE%A9%E6%AD%A5&%E5%94%A4%E9%86%92/">
+        <h2 class="post-title">
+            Java多线程学习系列
+        </h2>
+        
+        <h3 class="post-subtitle">
+             "4-线程的睡眠&等待&让步&唤醒"
+        </h3>
+        
+        <div class="post-content-preview">
+            线程的睡眠&amp;等待&amp;让步&amp;唤醒
+
+
+  yield()
+    
+      发送请求告诉调度器“当前线程”让出当前对处理器资源的占用。调度器可以忽略该请求。
+      很少场景会使用到这个方法，该方法可能对于debug或者出于测试的目的的场景有些用处（就是没有什么卵用的意思）。
+      D大调
+    
+  
+  sleep(long millis)
+    
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Dunno on January 24, 2016
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                                <a href="/tags/#java多线程" title="java多线程" rel="6">
+                                    java多线程
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Linux" title="Linux" rel="6">
+                                    Linux
+                                </a>
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/protrait.jpg" />
+                        
+                        
+                            <p>今天努力的赚钱就是为了明天的好吃懒做...</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/Dunnohe">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="#">Foo</a></li>
+                    
+                        <li><a href="#">Bar</a></li>
+                    
+                        <li><a href="#">Example Friends</a></li>
+                    
+                        <li><a href="#">It helps SEO</a></li>
+                    
+                </ul>
+                
+    		</div>
+        
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Dunnohe">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Dunno Blog 2016
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-77249761-1';
+    var _gaDomain = 'dunnohe.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4f7890dcf0fb512207d44646054211a0';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
